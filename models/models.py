@@ -3,6 +3,8 @@
 from odoo import models, fields, api
 from datetime import datetime
 from odoo.exceptions import UserError
+from odoo.addons.http_routing.models.ir_http import slug
+from odoo.tools.translate import html_translate
 
 class Website(models.Model):
     _inherit = 'website'
@@ -37,7 +39,7 @@ class WebsiteConfig(models.TransientModel):
 class PropertyLocation(models.Model):
     _name = 'khmerrealty.property.location'
 
-    name = fields.Char(translate=True)
+    name = fields.Char(translate=html_translate)
     parent_id = fields.Many2one('khmerrealty.property.location')
     feature_image = fields.Image(max_width=1920, max_height=1920)
     feature_location = fields.Boolean()
@@ -53,38 +55,40 @@ class PropertyLocation(models.Model):
 class PropertyAmenity(models.Model):
     _name = 'khmerrealty.property.amenity'
 
-    name = fields.Char(required=True, translate=True)
+    name = fields.Char(required=True, translate=html_translate)
     icons_font = fields.Char('Icon')
 
 
 class PropertySecurity(models.Model):
     _name = 'khmerrealty.property.security'
 
-    name = fields.Char(required=True, translate=True)
+    name = fields.Char(required=True, translate=html_translate)
     icons_font = fields.Char('Icon')
 
 
 class PropertyFeature(models.Model):
     _name = 'khmerrealty.property.feature'
 
-    name = fields.Char(required=True, translate=True)
+    name = fields.Char(required=True, translate=html_translate)
     icons_font = fields.Char('Icon')
 
 
 class PropertyType(models.Model):
     _name = 'khmerrealty.type'
-    name = fields.Char(required=True, translate=True)
+    name = fields.Char(required=True, translate=html_translate)
 
 
 class ProjectHighlights(models.Model):
     _name = 'khmerrealty.project.highlights'
 
-    name = fields.Char(translate=True, required=True)
+    name = fields.Char(translate=html_translate, required=True)
 
 
 class Property(models.Model):
     _name = 'khmerrealty.property'
-    _inherit = ['mail.thread', 'website.seo.metadata', 'website.published.mixin', 'website.multi.mixin']
+    _inherit = ['mail.thread', "website.seo.metadata", 'website.published.multi.mixin']
+    _mail_post_access = 'read'
+
 
     @api.model
     def _get_default_property_author(self):
@@ -99,8 +103,8 @@ class Property(models.Model):
     active = fields.Boolean(default=True)
     property_type = fields.Many2one('khmerrealty.type', required=True)
     property_author = fields.Many2one('res.partner', default=_get_default_property_author, required=True)
-    name = fields.Char(translate=True, required=True)
-    description = fields.Text(translate=True, sanitize=False, required=True)
+    name = fields.Char(translate=html_translate, required=True)
+    description = fields.Text(translate=html_translate, sanitize=False, required=True)
     property_status = fields.Selection([
         ('active', 'Active'),
         ('inactive', 'Inactive'),
@@ -116,8 +120,8 @@ class Property(models.Model):
                                     domain=[('parent_id', '=', False)])
     property_district = fields.Many2one('khmerrealty.property.location', string='District')
     property_commune = fields.Many2one('khmerrealty.property.location', string='Commune')
-    street_name = fields.Char(translate=True)
-    street_number = fields.Char(translate=True)
+    street_name = fields.Char(translate=html_translate)
+    street_number = fields.Char(translate=html_translate)
     floor_level = fields.Char()
     price = fields.Float(digits=(12, 2), required=True)
     price_per_m = fields.Float(digits=(12, 2), required=True)
@@ -134,6 +138,24 @@ class Property(models.Model):
     image_255 = fields.Image("Image 128", related="feature_image", max_width=255, max_height=210, store=True)
     image_gallery = fields.Many2many('ir.attachment', string="Images", required=True)
     property_create_date = fields.Date(default=datetime.today())
+
+    def _default_website_meta(self):
+        res = super(Property, self)._default_website_meta()
+        print(res)
+        res['default_opengraph']['og:description'] = res['default_twitter']['twitter:description'] = self.description
+        res['default_opengraph']['og:type'] = 'article'
+        res['default_opengraph']['article:published_time'] = self.create_date
+        res['default_opengraph']['article:modified_time'] = self.write_date
+        res['default_opengraph']['og:title'] = res['default_twitter']['twitter:title'] = self.name
+        res['default_opengraph']['og:image'] = res['default_twitter']['twitter:image'] = self.feature_image
+        res['default_meta_description'] = self.description
+        print(res)
+        return res
+
+    def _compute_website_url(self):
+        super(Property, self)._compute_website_url()
+        for blog_post in self:
+            blog_post.website_url = "/property/%s" % (slug(blog_post))
 
     @api.model
     def create(self, val):
@@ -186,7 +208,7 @@ class Property(models.Model):
 
 class Project(models.Model):
     _name = 'khmerrealty.project'
-    _inherit = ['mail.thread', 'website.seo.metadata', 'website.published.mixin', 'website.multi.mixin']
+    _inherit = ['mail.thread', "website.seo.metadata", 'website.published.multi.mixin']
 
     @api.model
     def _get_default_property_author(self):
