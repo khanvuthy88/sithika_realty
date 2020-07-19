@@ -1,0 +1,50 @@
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="khmerrealty_slide_list_view">
+            <field name="name">khmerrealty_ads_list_view</field>
+            <field name="model">khmerrealty.slide</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="ads_link"/>
+                    <field name="show_in"/>
+                    <field name="active"/>
+                </tree>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="khmerrealty_slide_form_view">
+            <field name="name">khmerrealty_ads_form_view</field>
+            <field name="model">khmerrealty.slide</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <field name="feature_image" widget="image" class="oe_avatar"/>
+                        <div class="oe_title">
+                            <label class="oe_edit_only" for="name" string="Slide Name"/>
+                            <h1><field name="name" placeholder="Slide Name"/></h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="show_in"/>
+                            </group>
+                            <group>
+                                <field name="ads_link"/>
+                            </group>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+        <record id="khmerrealty_slide_action" model="ir.actions.act_window">
+            <field name="name">Slide</field>
+            <field name="res_model">khmerrealty.slide</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem groups="khmerrealty.sithika_group_user_property,khmerrealty.sithika_group_manager_property" name="Slide" id="khmerrealty.slide_show_menu" action="khmerrealty_slide_action" parent="khmerrealty.menu_root"/>
+    </data>
+</odoo>

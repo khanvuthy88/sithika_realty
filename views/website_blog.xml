@@ -1,0 +1,17 @@
+<odoo>
+    <data>
+        <record id="khmerrealty_blog_post_form_view" model="ir.ui.view">
+            <field name="name">blog_post_form_view</field>
+            <field name="model">blog.post</field>
+            <field name="inherit_id" ref="website_blog.view_blog_post_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='tag_ids']" position="after">
+                    <field name="content"/>
+                    <field name="feature_image" widget="image" class="oe_avatar"/>
+                </xpath>
+            </field>
+        </record>
+
+
+    </data>
+</odoo>

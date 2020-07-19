@@ -1,0 +1,21 @@
+<odoo>
+    <data>
+        <template id="khmer_realty_style" name="Khmer Realty style" inherit_id="website.assets_frontend">
+            <xpath expr="link[last()]" position="after">
+                <link rel="stylesheet" type="text/scss" href="/khmerrealty/static/src/scss/style.scss"/>
+                <link rel="stylesheet" type="text/css" href="/khmerrealty/static/src/css/swiper.min.css"/>
+                <link rel="stylesheet" type="text/css" href="/khmerrealty/static/src/vendors/owlcarousel/assets/owl.carousel.min.css"/>
+                <link rel="stylesheet" type="text/css" href="/khmerrealty/static/src/vendors/owlcarousel/assets/owl.theme.default.min.css"/>
+                <link rel="stylesheet" type="text/css" href="/khmerrealty/static/src/vendors/fancybox/jquery.fancybox.min.css"/>
+            </xpath>
+        </template>
+        <template id="khmer_realty_script" inherit_id="web.assets_common_lazy" name="Khmer realty Js">
+            <xpath expr="script[last()]" position="after">
+                <script type="text/javascript" src="/khmerrealty/static/src/js/swiper.min.js"/>
+                <script type="text/javascript" src="/khmerrealty/static/src/js/website_effect.js" />
+                <script type="text/javascript" src="/khmerrealty/static/src/vendors/owlcarousel/owl.carousel.min.js"/>
+                <script type="text/javascript" src="/khmerrealty/static/src/vendors/fancybox/jquery.fancybox.min.js"/>
+            </xpath>
+        </template>
+    </data>
+</odoo>

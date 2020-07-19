@@ -1,0 +1,96 @@
+<odoo>
+    <data>
+        <record id="khmerrealty_project_highlight" model="ir.actions.act_window">
+            <field name="name">Project highlight</field>
+            <field name="res_model">khmerrealty.project.highlights</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem name="Project highlight" id="khmerrealty.configure_highlight" parent="khmerrealty.configure_menu" action="khmerrealty_project_highlight"/>
+
+        <record id="khmerrealty_project_form" model="ir.ui.view">
+            <field name="name">khmerrealty_project_form</field>
+            <field name="model">khmerrealty.project</field>
+            <field name="arch" type="xml">
+                <form string="Project">
+                    <header>
+                        <field name="project_status" widget="statusbar" clickable="0"/>
+                    </header>
+                    <sheet>
+                        <field name="feature_image" widget="image" class="oe_avatar" options="{'preview_image': 'image_128'}"/>
+                        <div class="oe_title">
+                            <label class="oe_edit_only" for="name" string="Project Name"/>
+                            <h1><field name="name" placeholder="Project Name"/></h1>
+                            <div name="options">
+                                <div>
+                                    <field name="display_price"/>
+                                    <label for="display_price"/>
+                                </div>
+                            </div>
+                        </div>
+                        <notebook>
+                            <page string="Information">
+                                <group>
+                                    <group>
+                                        <field name="project_author"/>
+                                        <field name="feature" widget="many2many_tags"/>
+                                        <field name="amenity" widget="many2many_tags"/>
+                                        <field name="security" widget="many2many_tags"/>
+                                        <field name="project_highlight" widget="many2many_tags"/>
+                                        <field name="price"/>
+                                        <field name="project_city"/>
+                                        <field name="project_district" attrs="{'readonly':[('project_city','=', False)]}"/>
+                                        <field name="project_commune" attrs="{'readonly':[('project_district','=', False)]}"/>
+                                    </group>
+                                    <group>
+                                        <field name="street_name"/>
+                                        <field name="street_number"/>
+                                        <field name="floor_area"/>
+                                        <field name="floor"/>
+                                        <field name="bedroom_in_unite"/>
+                                        <field name="unite_type" widget="many2many_tags"/>
+                                        <field name="complete_year"/>
+                                        <field name="total_unite"/>
+                                    </group>
+                                </group>
+                                <group>
+                                    <field nolabel="1" name="description" widget="html"/>
+                                </group>
+                            </page>
+                            <page string="Image Gallery">
+                                <field name="image_gallery" context="{'default_public': True}" class="oe_inline" widget="many2many_binary"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="khmerrealty_project_tree" model="ir.ui.view">
+            <field name="name">khmerrealty_project_tree</field>
+            <field name="model">khmerrealty.project</field>
+            <field name="arch" type="xml">
+                <tree string="Project">
+                    <field name="name"/>
+                    <field name="project_author"/>
+                    <field name="unite_type"/>
+                    <field name="complete_year"/>
+                    <field name="project_status"/>
+                    <field name="price"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="khmerrealty_project_action" model="ir.actions.act_window">
+            <field name="name">Project</field>
+            <field name="res_model">khmerrealty.project</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem name="Project" id="khmerrealty.project" parent="khmerrealty.menu_root" action="khmerrealty_project_action"/>
+    </data>
+</odoo>

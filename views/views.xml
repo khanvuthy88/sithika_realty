@@ -1,0 +1,251 @@
+<odoo>
+    <data>
+        <record id="khmerrealty_property_list" model="ir.ui.view">
+            <field name="name">khemrrealty_property_list</field>
+            <field name="model">khmerrealty.property</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="property_author"/>
+                    <field name="property_status"/>
+                    <field name="price"/>
+                    <field name="property_status"/>
+                    <field name="price_per_m"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="khmerrealty_property_form" model="ir.ui.view">
+            <field name="name">khemrrealty_property_list</field>
+            <field name="model">khmerrealty.property</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <field name="property_status" widget="statusbar" clickable="0"/>
+                    </header>
+
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>
+                            <button string="Archive" name="toggle_active" type="object" class="oe_stat_button" icon="fa-archive">
+                                <field name="active" widget="boolean_button" options='{"terminology": "archive"}'/>
+                            </button>
+                        </div>
+                        <field name="feature_image" widget="image" class="oe_avatar" options="{'preview_image': 'feature_image'}"/>
+                        <div class="oe_title">
+                            <label class="oe_edit_only" for="name" string="Property Name"/>
+                            <h1><field name="name" placeholder="Property Name"/></h1>
+                            <div name="options">
+                                <div>
+                                    <field name="display_price"/>
+                                    <label for="display_price"/>
+                                </div>
+                            </div>
+                        </div>
+                        <notebook>
+                            <page string="Information">
+                                <group>
+                                    <group>
+                                        <field name="property_author"/>
+                                        <field name="property_type"/>
+                                        <field name="feature" widget="many2many_tags"/>
+                                        <field name="amenity" widget="many2many_tags"/>
+                                        <field name="security" widget="many2many_tags"/>
+                                        <field name="price"/>
+                                        <field name="number_bathroom"/>
+                                        <field name="property_city"/>
+                                        <field name="property_district" attrs="{'readonly':[('property_city','=', False)]}"/>
+                                        <field name="property_commune" attrs="{'readonly':[('property_district','=', False)]}"/>
+                                    </group>
+                                    <group>
+                                        <field name="street_name"/>
+                                        <field name="street_number"/>
+                                        <field name="floor_level"/>
+                                        <field name="price_per_m"/>
+                                        <field name="car_space"/>
+                                        <field name="floor_area_per_m"/>
+                                        <field name="land_area_per_m"/>
+                                        <field name="total_floor"/>
+                                        <field name="number_bedroom"/>
+                                        <field name="property_category"/>
+                                        <field name="property_size"/>
+                                        <field name="property_facing"/>
+                                    </group>
+                                </group>
+                                <group>
+                                    <field nolabel="1" name="description" widget="html"/>
+                                </group>
+                            </page>
+                            <page string="Image Gallery">
+                                <field name="image_gallery" widget="many2many_binary"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="khmerrealty_property_search" model="ir.ui.view">
+            <field name="name">khmerrealty_property_search</field>
+            <field name="model">khmerrealty.property</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/>
+                    <field name="property_author"/>
+                    <field name="property_type"/>
+
+                    <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
+                    <filter name="group_by_property_status_active" string="Active" domain="[('property_status', '=', 'active')]"/>
+                    <filter name="group_by_property_status_sole" string="Sole" domain="[('property_status', '=', 'has_sole')]"/>
+                    <filter name="group_by_property_status_rent" string="Rent" domain="[('property_status', '=', 'has_rent')]"/>
+
+                    <searchpanel>
+                        <field name="property_category"/>
+                        <field name="property_city"/>
+                        <field name="property_type" select="multi"/>
+                    </searchpanel>
+
+                    <group string="Group By">
+                        <filter name="group_by_author" string="Author" context="{'group_by': 'property_author'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="khmerrealty_property_location_list" model="ir.ui.view">
+            <field name="name">khmerrealty_property_location_list</field>
+            <field name="model">khmerrealty.property.location</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="sequence"/>
+                    <field name="parent_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="khmerrealty_property_type_list" model="ir.ui.view">
+            <field name="name">khmerrealty_property_type_list</field>
+            <field name="model">khmerrealty.type</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="khmerrealty_property_type_action" model="ir.actions.act_window">
+            <field name="name">Property type</field>
+            <field name="res_model">khmerrealty.type</field>
+            <field name="view_mode">tree,form,search</field>
+        </record>
+
+        <record model="ir.ui.view" id="khmerrealty_property_location_form">
+            <field name="name">khmerrealty_property_location_form</field>
+            <field name="model">khmerrealty.property.location</field>
+            <field name="arch" type="xml">
+                <form string="Course Form">
+                    <sheet>
+                        <field name="feature_image" widget="image" class="oe_avatar"/>
+                        <div class="oe_title">
+                            <label class="oe_edit_only" for="name" string="Location Name"/>
+                            <h1><field name="name" placeholder="Location Name"/></h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="feature_location"/>
+                                <field name="parent_id"/>
+                            </group>
+                            <group>
+                                <field name="sequence" attrs="{'required': [('feature_location', '=', True)]}"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="khmerrealty_property_action" model="ir.actions.act_window">
+            <field name="name">Property</field>
+            <field name="res_model">khmerrealty.property</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="khmerrealty_property_amenity" model="ir.actions.act_window">
+            <field name="name">Property Amenity</field>
+            <field name="res_model">khmerrealty.property.amenity</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="khmerrealty_property_security" model="ir.actions.act_window">
+            <field name="name">Property Security</field>
+            <field name="res_model">khmerrealty.property.security</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="khmerrealty_property_feature" model="ir.actions.act_window">
+            <field name="name">Property Feature</field>
+            <field name="res_model">khmerrealty.property.feature</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="khmerrealty_property_location" model="ir.actions.act_window">
+            <field name="name">Property Location</field>
+            <field name="res_model">khmerrealty.property.location</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+         <record id="res_config_settings_view_form" model="ir.ui.view">
+            <field name="name">res.config.settings.view.form.inherit.website</field>
+            <field name="model">res.config.settings</field>
+            <field name="priority" eval="20"/>
+            <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//*[@id='website_settings']/div[13]" position="inside">
+                    <div class="o_setting_right_pane">
+                        <div class="content-group">
+                            <div class="row">
+                                <label class="col-lg-3 o_light_label" string="Facebook URL" for="facebook_url"/>
+                                <field name="facebook_url"/>
+                            </div>
+                            <div class="row">
+                                <label class="col-lg-3 o_light_label" string="Facebook Icon" for="facebook_icon"/>
+                                <field name="facebook_icon" widget="image" class="float-left oe_avatar"/>
+                            </div>
+                        </div>
+                    </div>
+                </xpath>
+            </field>
+
+
+         </record>
+
+        <!-- Top menu item -->
+
+        <menuitem name="Sithika Realty" id="khmerrealty.menu_root" web_icon="khmerrealty,static/description/icons.jpg"/>
+
+        <!-- menu categories -->
+
+        <menuitem name="Property" id="khmerrealty.property" parent="khmerrealty.menu_root" action="khmerrealty_property_action"/>
+
+        <!-- Configure menu -->
+        <menuitem groups="khmerrealty.sithika_group_user_property,khmerrealty.sithika_group_manager_property" name="Configure" id="khmerrealty.configure_menu" parent="khmerrealty.menu_root"/>
+        <menuitem name="Amenity" id="khmerrealty.configure_amenity" parent="khmerrealty.configure_menu" action="khmerrealty_property_amenity"/>
+        <menuitem name="Security" id="khmerrealty.configure_security" parent="khmerrealty.configure_menu" action="khmerrealty_property_security"/>
+        <menuitem name="Feature" id="khmerrealty.configure_feature" parent="khmerrealty.configure_menu" action="khmerrealty_property_feature"/>
+        <menuitem name="Location" id="khmerrealty.configure_location" parent="khmerrealty.configure_menu" action="khmerrealty_property_location"/>
+        <menuitem name="Property type" id="khmerrealty.configure_property_type" parent="khmerrealty.configure_menu" action="khmerrealty_property_type_action"/>
+
+        <!-- actions -->
+
+<!--        <menuitem name="List" id="khmerrealty.menu_1_list" parent="khmerrealty.menu_1"-->
+<!--                  action="khmerrealty.action_window"/>-->
+<!--        <menuitem name="Server to list" id="khmerrealty" parent="khmerrealty.menu_2"-->
+<!--                  action="khmerrealty.action_server"/>-->
+
+    </data>
+</odoo>
