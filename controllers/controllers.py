@@ -159,7 +159,7 @@ class Khmerrealty(http.Controller):
             'property_type_obj': property_type_obj,
         })
 
-    @http.route('/property/<model("khmerrealty.property"):record>/', auth='public', website=True)
+    @http.route('/property/<model("khmerrealty.type"):property_type>/<model("khmerrealty.property"):record>', auth='public', website=True)
     def single_property(self, record, **kw):
         property_root_url = QueryURL('/property-listing')
         property_type_url = ''

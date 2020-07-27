@@ -141,6 +141,18 @@ class Property(models.Model):
     image_gallery = fields.Many2many('ir.attachment', string="Images", required=True)
     property_create_date = fields.Date(default=datetime.today())
     short_description = fields.Text(compute="_compute_short_description")
+    property_address = fields.Char(compute="_compute_property_address")
+    readable_id = fields.Char(compute="_compute_property_id")
+
+    def _compute_property_id(self):
+        for record in self:
+            record.readable_id = 'SRID{}'.format(record.id)
+
+    @api.depends('property_city.name', 'property_district.name', 'property_commune.name')
+    def _compute_property_address(self):
+        for record in self:
+            record.property_address = '{} > {} > {}'.format(record.property_city.name, record.property_district.name,
+                                                            record.property_commune.name)
 
     def _compute_short_description(self):
         for record in self:
@@ -163,7 +175,7 @@ class Property(models.Model):
     def _compute_website_url(self):
         super(Property, self)._compute_website_url()
         for record in self:
-            record.website_url = "/property/%s" % (slug(record))
+            record.website_url = "/property/%s/%s" % (slug(record.property_type), slug(record))
 
     @api.model
     def create(self, val):
@@ -260,6 +272,11 @@ class Project(models.Model):
     image_gallery = fields.Many2many('ir.attachment', string="Images", required=True)
     display_price = fields.Boolean(default=True)
     short_description = fields.Text(compute="_compute_short_description")
+
+    def _compute_website_url(self):
+        super(Project, self)._compute_website_url()
+        for record in self:
+            record.website_url = "/project/%s/%s" % (slug(record.unite_type), slug(record))
 
     def _compute_short_description(self):
         for record in self:

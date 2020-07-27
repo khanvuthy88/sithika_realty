@@ -1,5 +1,75 @@
 <odoo>
     <data>
+        <template id="property_detail_single" name="Property single detail">
+            <div class="property_detail_single">
+                <h2>Basic information</h2>
+                <ul class="inner_wrraper">
+                    <li class="property_id">ID : <t t-esc="property.readable_id"/></li>
+                    <li class="property_id">Type : <t t-esc="property.property_type.name" t-if="property.property_type"/></li>
+                    <li class="property_id">Bedroom : <t t-esc="property.number_bedroom" t-if="property.number_bedroom"/></li>
+                    <li class="property_id">Bathrooms : <t t-esc="property.number_bathroom" t-if="property.number_bathroom"/></li>
+                    <li class="property_id">Address : <t t-esc="property.property_address"/></li>
+                </ul>
+                <div class="property_feature" t-if="property.feature">
+                    <h2>Property Features</h2>
+                    <ul class="property_feature_list">
+                        <t t-foreach="property.feature" t-as="feature">
+                            <li class="badge badge-secondary" t-esc="feature.name"/>
+                        </t>
+                    </ul>
+                </div>
+                <div class="property_amenities" t-if="property.amenity">
+                    <h2>Amenities</h2>
+                    <ul class="property_amenities_list">
+                        <t t-foreach="property.amenity" t-as="amenity">
+                            <li><i class="fa fa-check-square"></i> <t t-esc="amenity.name"/></li>
+                        </t>
+                    </ul>
+                </div>
+                <div class="property_description" t-if="property.description">
+                    <h2>Description</h2>
+                    <p t-raw="property.description"/>
+                </div>
+
+            </div>
+        </template>
+        <template id="website_realty_single_agency_template" name="Single Agency">
+            <div class="inner_wrapper">
+                <div t-attf-class="property_author_short_info box_shadow">
+                    <div class="price">
+                        <span class="price">$<t t-esc="property.price"/>/</span>
+                        <span>Month</span>
+                    </div>
+                    <div class="author_info_avatar">
+                        <a t-att-href="article.website_url" class="post-thumbnail" t-att-title="article.name">
+                            <img t-attf-class="zoom_image" t-if="article.image_1920" t-att-src="image_data_uri(article.image_1920)" t-attf-alt="article.name"/>
+                            <img t-attf-class="zoom_image" t-else="" t-attf-src="/khmerrealty/static/description/default.jpg" t-att-alt="article.property_author.name"/>
+                        </a>
+                        <ul class="author_name_email_phone">
+                            <li class="author_name" t-if="article.name">
+                                <a href="#" t-att-title="article.name">
+                                    <h1 t-esc="article.name"/>
+                                </a>
+                            </li>
+                            <li class="author_email" t-esc="article.email" t-if="article.email"/>
+                            <li class="phone" t-if="article.mobile">
+                                <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-telephone-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+  <path fill-rule="evenodd" d="M2.267.98a1.636 1.636 0 0 1 2.448.152l1.681 2.162c.309.396.418.913.296 1.4l-.513 2.053a.636.636 0 0 0 .167.604L8.65 9.654a.636.636 0 0 0 .604.167l2.052-.513a1.636 1.636 0 0 1 1.401.296l2.162 1.681c.777.604.849 1.753.153 2.448l-.97.97c-.693.693-1.73.998-2.697.658a17.47 17.47 0 0 1-6.571-4.144A17.47 17.47 0 0 1 .639 4.646c-.34-.967-.035-2.004.658-2.698l.97-.969z"/>
+</svg>
+                                <span t-esc="article.mobile"/>
+                            </li>
+                        </ul>
+                    </div>
+                    <t t-call="khmerrealty.article_agency_summary"/>
+                    <t t-call="khmerrealty.article_location_template"/>
+                    <div class="actions_call_email">
+                        <button class="btn btn-primary"><a href="">Call</a></button>
+                        <button class="btn btn-secondary"><a href="#">Chat</a></button>
+                    </div>
+
+                </div>
+            </div>
+        </template>
         <template id="website_realty_adds_banner_right_template" name="Banner at the right of article">
             <div id="banner_render_block">
 
@@ -86,13 +156,13 @@
         </template>
         <template id="article_property_list_view_template" name="Article list view">
             <article t-attf-class="list_view box_shadow {{_oproperty_type}}">
-                <a class="post-thumbnail" t-att-title="article.name" href="#">
+                <a class="post-thumbnail" t-att-title="article.name" t-att-href="article.website_url">
                     <img t-attf-class="zoom_image" t-if="article.feature_image" t-att-src="image_data_uri(article.feature_image)" t-attf-alt="article.name"/>
                     <img t-attf-class="zoom_image" t-else="" t-attf-src="/khmerrealty/static/description/default.jpg" t-att-alt="article.name"/>
                 </a>
                 <div class="article-content-wrapper">
                     <header class="entry-header">
-                        <a href="#" t-att-title="article.name">
+                        <a t-att-href="article.website_url" t-att-title="article.name">
                             <h2 class="entry-title" t-field="article.name"/>
                         </a>
                     </header>
@@ -149,6 +219,13 @@
                 <span t-if="city_sub_2" class="city_sub2" t-esc="city_sub_1"/>
             </div>
         </template>
+        <template id="article_agency_summary" name="Agency summary">
+            <ul class="summary_agency">
+                <li class="n_property" t-esc="article.count_property_by_agent(article)"/>
+                <li class="n_project" t-esc="article.get_project_by_agency(article)"/>
+                <li class="n_agent" t-esc="article.get_agent_by_agency_id(article)"/>
+            </ul>
+        </template>
         <template id="article_agency_horizontal_template" name="Agency horizontal template">
             <article class="agency box_shadow">
                 <a href="#" class="post-thumbnail" t-att-title="article.name">
@@ -162,11 +239,7 @@
                         </a>
                     </header>
                     <div class="entry-content">
-                        <ul class="summary_agency">
-                            <li class="n_property" t-esc="article.count_property_by_agent(article)"/>
-                            <li class="n_project" t-esc="article.get_project_by_agency(article)"/>
-                            <li class="n_agent" t-esc="article.get_agent_by_agency_id(article)"/>
-                        </ul>
+                        <t t-call="khmerrealty.article_agency_summary"/>
                         <t t-call="khmerrealty.article_location_template"/>
                     </div>
                 </div>
@@ -174,12 +247,13 @@
         </template>
         <template id="article_horizontal_tempalte" name="Article horizontal template">
             <article class="box_shadow">
-                <a href="#" class="post-thumbnail" t-att-title="article.name" t-if="article.feature_image">
-                    <img t-attf-class="zoom_image" t-att-src="image_data_uri(article.image_255)" t-attf-alt="{{ article.name }}"/>
+                <a t-att-href="article.website_url" class="post-thumbnail" t-att-title="article.name" t-if="article.feature_image">
+                    <img t-attf-class="zoom_image" t-if="article.feature_image" t-att-src="image_data_uri(article.feature_image)" t-attf-alt="article.name"/>
+                    <img t-attf-class="zoom_image" t-else="" t-attf-src="/khmerrealty/static/description/default.jpg" t-att-alt="article.name"/>
                 </a>
                 <div class="news_events_content_wrapper">
                     <header class="entry-header">
-                        <a href="#" t-att-title="article.name">
+                        <a t-att-href="article.website_url" t-att-title="article.name">
                             <h2 class="entry-title" t-field="article.name"/>
                         </a>
                     </header>

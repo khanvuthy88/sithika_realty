@@ -82,7 +82,7 @@
             </div>
         </template>
         <template id="realty_homepage" name="Sithika Homepage" inherit_id="website.homepage">
-            <xpath expr="//div[@class='oe_structure oe_empty']" position="before">
+            <xpath expr="//div[hasclass('oe_empty')]" position="before">
                 <section id="homepage_slide">
                     <div id="slide">
                         <div id="carouselExampleIndicators" class="carousel slide carousel-fade" data-ride="carousel">
@@ -287,15 +287,6 @@
                             </div>
                         </div>
                     </div>
-<!--                    <div class="oe_structure" id="locations_list">-->
-<!--                        <div class="container">-->
-<!--                            <div class="row">-->
-<!--                                <div class="col-md-12 mt-4 mb-4">-->
-<!--                                    <t t-call="khmerrealty.property_location_list"/>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
                     <div class="oe_structure" id="property_type_list_wrapper">
                         <div class="container">
                             <div class="row">
@@ -584,7 +575,7 @@
         </template>
         <template id="property_image_gallery">
             <div id="property_image_gallery">
-                <div class="property_gallery_fancybox fancy_box_desktop">
+                <div class="property_gallery_fancybox">
                     <div class="image_1">
                         <a t-att-href="image_data_uri(property.feature_image)" class="" data-fancybox="images">
                             <img t-att-src="image_data_uri(property.feature_image)" t-att-alt="property.name"/>
@@ -597,20 +588,6 @@
                                     <img t-attf-src="{{ image.image_src }}" t-att-alt="property.name"/>
                                 </a>
                             </div>
-                        </t>
-                    </div>
-                </div>
-                <div class="property_gallery_fancybox fancy_box_mobile">
-                    <div class="default_feature_image">
-                        <a data-fancybox-trigger="preview" href="javascript:;">
-                            <img t-att-src="image_data_uri(property.feature_image)" t-att-alt="property.name"/>
-                        </a>
-                    </div>
-                    <div class="image_thumb">
-                        <t t-foreach="property.image_gallery" t-as="image">
-                            <a t-attf-href="{{ image.image_src }}" data-fancybox="preview" data-width="1500" data-height="1000">
-                                <img t-attf-src="{{ image.image_src }}" t-att-alt="property.name"/>
-                            </a>
                         </t>
                     </div>
                 </div>
@@ -892,8 +869,9 @@
                                     <div class="news_block">
                                         <div class="block_inner">
                                             <article class="news_reocrd box_shadow" t-foreach="top_three_news" t-as="news">
-                                            <a href="#" class="post-thumbnail" t-att-title="news.name" t-if="news.feature_image">
-                                                <img t-attf-class="zoom_image" t-att-src="image_data_uri(news.image_825)" t-attf-alt="{{ news.name }}"/>
+                                            <a href="#" class="post-thumbnail" t-att-title="news.name">
+                                                <img t-attf-class="zoom_image" t-if="news.feature_image" t-att-src="image_data_uri(news.feature_image)" t-attf-alt="news.name"/>
+                                                <img t-attf-class="zoom_image" t-else="" t-attf-src="/khmerrealty/static/description/default.jpg" t-att-alt="news.name"/>
                                             </a>
                                             <div class="news_events_content_wrapper">
                                                 <header class="entry-header">
@@ -912,8 +890,9 @@
                                     <div class="events_block">
                                         <div class="block_inner">
                                             <article class="event_record box_shadow" t-foreach="top_three_guide" t-as="event">
-                                            <a href="#" class="post-thumbnail" t-att-title="event.name" t-if="event.feature_image">
-                                                <img t-attf-class="zoom_image" t-att-src="image_data_uri(event.image_825)" t-attf-alt="{{ event.name }}"/>
+                                            <a href="#" class="post-thumbnail" t-att-title="event.name">
+                                                <img t-attf-class="zoom_image" t-if="event.feature_image" t-att-src="image_data_uri(event.feature_image)" t-attf-alt="event.name"/>
+                                                <img t-attf-class="zoom_image" t-else="" t-attf-src="/khmerrealty/static/description/default.jpg" t-att-alt="event.name"/>
                                             </a>
                                             <div class="news_events_content_wrapper">
                                                 <header class="entry-header">
@@ -1223,12 +1202,7 @@
                                     <div class="col-md-12">
                                         <div class="row">
                                             <div class="col-md-9">
-                                                <h1 id="property_name">
-                                                    <span class="name" t-field="property.name"/>
-                                                    <span class="price" t-attf-style="color:#3D86C6;">
-                                                        $<t t-esc="property.price"/>
-                                                    </span>
-                                                </h1>
+                                                <h1 id="property_name" t-esc="property.name"/>
                                             </div>
                                             <div class="col-md-3">
                                                 <div class="o_wblog_social_links d-flex flex-wrap mx-n1 float-right">
@@ -1238,130 +1212,25 @@
                                             </div>
                                         </div>
                                         <div class="property_detail">
-                                            <div class="row">
-                                                <div class="col-md-8">
-                                                    <div class="row">
-                                                        <t t-if="property.number_bedroom">
-                                                            <div class="col-md-4">
-                                                                <p t-attf-style="border-bottom: 1px dashed #e1e1e1; padding: 8px 0;">Bedroom : <span t-attf-style="float: right; color:#3D86C6; font-weight: 500;" t-esc="property.number_bedroom"/></p>
-                                                            </div>
-                                                        </t>
-                                                        <t t-if="property.number_bathroom">
-                                                            <div class="col-md-4">
-                                                                <p t-attf-style="border-bottom: 1px dashed #e1e1e1; padding: 8px 0;">Bathroom : <span t-attf-style="float: right; color:#3D86C6; font-weight: 500;" t-esc="property.number_bathroom"/></p>
-                                                            </div>
-                                                        </t>
-                                                        <t t-if="property.property_size">
-                                                            <div class="col-md-4">
-                                                                <p t-attf-style="border-bottom: 1px dashed #e1e1e1; padding: 8px 0;">Size(m2) : <span t-attf-style="float: right; color:#3D86C6; font-weight: 500;" t-esc="property.property_size"/></p>
-                                                            </div>
-                                                        </t>
-                                                        <t t-if="property.property_facing">
-                                                            <div class="col-md-4">
-                                                                <p t-attf-style="border-bottom: 1px dashed #e1e1e1; padding: 8px 0;">Facing : <span t-attf-style="float: right; color:#3D86C6; font-weight: 500;" t-esc="property.property_facing"/></p>
-                                                            </div>
-                                                        </t>
-
-                                                    </div>
-                                                    <t t-if="property.security">
-                                                        <div class="row">
-                                                            <div class="col-md-12">
-                                                                <h3>Security</h3>
-                                                            </div>
-                                                            <t t-foreach="property.security" t-as="security">
-                                                                <div class="col-md-6" t-field="security.name"/>
-                                                            </t>
-                                                        </div>
-                                                    </t>
-
-                                                    <t t-if="property.feature">
-                                                        <div class="row">
-                                                            <div class="col-md-12 mb-2 mt-2">
-                                                                <h3>Property Features</h3>
-                                                            </div>
-                                                        </div>
-                                                        <div class="row">
-                                                            <t t-foreach="property.feature" t-as="feature">
-                                                                <div class="col-md-6" t-field="feature.name"/>
-                                                            </t>
-                                                        </div>
-                                                    </t>
-
-                                                    <t t-if="property.amenity">
-                                                        <div class="row">
-                                                            <div class="col-md-12 mb-2 mt-2">
-                                                                <h3>Amenities</h3>
-                                                            </div>
-                                                        </div>
-                                                        <div class="row">
-                                                            <t t-foreach="property.amenity" t-as="amenity">
-                                                                <div class="col-md-6" t-field="amenity.name"/>
-                                                            </t>
-                                                        </div>
-                                                    </t>
-
-                                                    <t t-if="property.description">
-                                                        <div class="row">
-                                                            <div class="col-md-12 mb-2 mt-2">
-                                                                <h3>Description</h3>
-                                                            </div>
-                                                            <div class="col-md-12">
-                                                                <t t-raw="property.description"/>
-                                                            </div>
-                                                        </div>
-                                                    </t>
-                                                    <div class="row mt-4 mb-4">
-                                                        <div class="col-md-12">
-                                                            <div class="o_wblog_social_links d-flex flex-wrap mx-n1">
-                                                                <t t-set="classes">bg-100 border mx-1 mb-2 rounded-circle d-flex align-items-center justify-content-center text-decoration-none</t>
-                                                                <a href="#" aria-label="Facebook" title="Share on Facebook" t-attf-class="o_facebook #{classes}"><i class="fa fa-facebook-square text-facebook"/></a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="oe_structure">
-                                                        <div class="contact_top mb-4">
-                                                            <div class="user_avata">
-                                                                <t t-if="property.property_author.image_1920">
-                                                                    <img t-attf-alt="{{property.property_author.name}}" t-att-src="image_data_uri(property.property_author.image_1920)"/>
-                                                                </t>
-                                                                <t t-else="">
-                                                                    <img t-attf-alt="{{property.property_author.name}}" t-attf-src="/khmerrealty/static/description/default_user.jpg"/>
-                                                                </t>
-                                                            </div>
-                                                            <div class="user_info">
-                                                                <a t-attf-href="/property/author/{{ slug(property.property_author) }}" t-attf-title="{{property.property_author.name}}">
-                                                                    <h1 t-field="property.property_author.name"/>
-                                                                </a>
-                                                                <p class="company" t-field="property.property_author.company_name"/>
-                                                                <p class="tel" t-field="property.property_author.phone"/>
-                                                                <p class="email" t-field="property.property_author.email"/>
-                                                            </div>
-                                                        </div>
-                                                        <t t-foreach="banners" t-as="banner">
-                                                            <div class="banner-image mb-3">
-                                                                <t t-if="banner.ads_link">
-                                                                    <a target="_blank" t-attf-href="{{ banner.ads_link }}" t-attf-title="{{ banner.name }}">
-                                                                        <img class="img-fluid" t-att-src="image_data_uri(banner.feature_image)" t-att-alt="banner.name"/>
-                                                                    </a>
-                                                                </t>
-                                                                <t t-else="">
-                                                                    <img class="img-fluid" t-att-src="image_data_uri(banner.feature_image)" t-att-alt="banner.name"/>
-                                                                </t>
-                                                            </div>
-                                                        </t>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            <t t-call="khmerrealty.property_detail_single"/>
+                                            <t t-set="article" t-value="property.property_author"/>
+                                            <t t-set="city" t-value="article.city_vt.name" t-if="article.city_vt"/>
+                                            <t t-set="city_sub_1" t-value="article.district_vt.name" t-if="article.district_vt"/>
+                                            <t t-set="city_sub_2" t-value="article.commune_vt.name" t-if="article.commune_vt"/>
+                                            <t t-call="khmerrealty.website_realty_single_agency_template"/>
                                         </div>
                                     </div>
                                     <div class="col-md-12">
                                         <div id="related_property">
                                             <div class="row">
-                                                <t t-foreach="related_property" t-as="property">
-                                                    <t t-call="khmerrealty.popular_property_content_block"/>
-                                                </t>
+                                                <div class="inner_wrapper col-md-12">
+                                                    <t t-foreach="related_property" t-as="article">
+                                                        <t t-set="city" t-value="article.property_city.name" t-if="article.property_city"/>
+                                                        <t t-set="city_sub_1" t-value="article.property_district.name" t-if="article.property_district"/>
+                                                        <t t-set="city_sub_2" t-value="article.property_commune.name" t-if="article.property_commune"/>
+                                                        <t t-call="khmerrealty.article_horizontal_tempalte"/>
+                                                    </t>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -1667,7 +1536,7 @@
             </t>
         </template>
         <template id="single_project_media">
-            <div class="project_gallery_fancybox fancy_box_desktop">
+            <div class="project_gallery_fancybox">
                 <div class="image_1">
                     <a t-att-href="image_data_uri(project.feature_image)" class="" data-fancybox="images">
                         <img t-att-src="image_data_uri(project.feature_image)" t-att-alt="project.name"/>
@@ -1680,20 +1549,6 @@
                                 <img t-attf-src="{{ project.get_attachment_src(image.id) }}" t-att-alt="project.name"/>
                             </a>
                         </div>
-                    </t>
-                </div>
-            </div>
-            <div class="project_gallery_fancybox fancy_box_mobile">
-                <div class="default_feature_image">
-                    <a data-fancybox-trigger="preview" href="javascript:;">
-                        <img t-att-src="image_data_uri(project.feature_image)" t-att-alt="project.name"/>
-                    </a>
-                </div>
-                <div class="image_thumb">
-                    <t t-foreach="project.image_gallery" t-as="image">
-                        <a t-attf-href="{{ project.get_attachment_src(image.id) }}" data-fancybox="preview" data-width="1500" data-height="1000">
-                            <img t-attf-src="{{ project.get_attachment_src(image.id) }}" t-att-alt="project.name"/>
-                        </a>
                     </t>
                 </div>
             </div>
