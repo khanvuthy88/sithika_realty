@@ -1,0 +1,193 @@
+<odoo>
+    <data>
+        <template id="website_realty_adds_banner_right_template" name="Banner at the right of article">
+            <div id="banner_render_block">
+
+            </div>
+        </template>
+        <template id="webaite_realty_search_form" name="Search Form">
+            <div id="o_website_realtysearch">
+                <ul class="search_label">
+                    <li data-holder="Buy" class="buy active" data-type="buy">Buy</li>
+                    <li data-holder="Rent" class="rent" data-type="rent">Rent</li>
+                </ul>
+                <form method="get" id="_o_search_main_form">
+                    <select class="form-control" name="search_location" id="search_location">
+                            <option value="1">Phnom Penh</option>
+
+                            <option value="12">Siem Reap</option>
+
+                            <option value="13">Kompot</option>
+
+                            <option value="14">Battambang</option>
+
+                            <option value="15">Sihanouk Ville</option>
+
+                            <option value="16">Pailin</option>
+
+                            <option value="19">Kompong Speu</option>
+
+                            <option value="20">Koh Kong</option>
+
+                            <option value="21">Kandal</option>
+
+                            <option value="22">Ang Snoul</option>
+
+                            <option value="23">Kandal</option>
+
+                            <option value="24">Ang Snoul</option>
+
+                            <option value="25">Bek Chan</option>
+
+                            <option value="28">Prey Pdau</option>
+
+                            <option value="29">Ou Bek Orm</option>
+
+                            <option value="30">Sorla</option>
+
+                            <option value="31">Kandal</option>
+
+                            <option value="32">Kandal</option>
+
+                            <option value="33">Thnol Totoeng</option>
+
+                            <option value="34">Chom Chao</option>
+
+                            <option value="35">Chom Chao</option>
+
+                            <option value="36">Dongkor</option>
+
+                            <option value="37">Dongkor</option>
+
+                            <option value="38">Boeng Tompun</option>
+
+                            <option value="39">Chbar Ampov</option>
+
+                            <option value="40">Snor</option>
+
+                            <option value="41">Chbarmon Town</option>
+
+                            <option value="42">Bek Chan</option>
+
+                            <option value="43">Hen Sok</option>
+
+                            <option value="44">Odong</option>
+
+                            <option value="45">Por Sen Chey</option>
+
+                            <option value="46">Prey Tea</option>
+
+                        </select>
+                    <input class="form-control" name="search_text" type="text" id="search_text" placeholder="Buy"/>
+                    <input type="hidden" id="search_property_type" name="search_property_type" value="buy"/>
+                    <button t-attf-style="background-color: #3a86cb; color: #fff; border-radius: 0px;" class="btn" type="submit"><i class="fa fa-search fa-2x"/></button>
+                </form>
+            </div>
+        </template>
+        <template id="article_property_list_view_template" name="Article list view">
+            <article t-attf-class="list_view box_shadow {{_oproperty_type}}">
+                <a class="post-thumbnail" t-att-title="article.name" href="#">
+                    <img t-attf-class="zoom_image" t-if="article.feature_image" t-att-src="image_data_uri(article.feature_image)" t-attf-alt="article.name"/>
+                    <img t-attf-class="zoom_image" t-else="" t-attf-src="/khmerrealty/static/description/default.jpg" t-att-alt="article.name"/>
+                </a>
+                <div class="article-content-wrapper">
+                    <header class="entry-header">
+                        <a href="#" t-att-title="article.name">
+                            <h2 class="entry-title" t-field="article.name"/>
+                        </a>
+                    </header>
+                    <div class="entry-content">
+                        <div class="short_description_author">
+                            <p t-field="article.short_description"/>
+                            <div class="article_author">
+                                <a href="#" class="article_author_avatar_name" t-att-title="article.property_author.name">
+                                    <img t-attf-class="zoom_image" t-if="article.property_author.image_1920" t-att-src="image_data_uri(article.property_author.image_1920)" t-attf-alt="article.property_author.name"/>
+                                    <img t-attf-class="zoom_image" t-else="" t-attf-src="/khmerrealty/static/description/default.jpg" t-att-alt="article.property_author.name"/>
+                                    <p class="author_name" t-field="article.property_author.name"/>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="article_price_actions">
+                            <div class="article_price">
+                                <span class="price">$<t t-esc="article.price"/> /</span>
+                                <span class="currency">Mon</span>
+                            </div>
+                            <div class="actions">
+                                <div><button class="btn btn-primary">Call</button></div>
+                                <div><button class="btn btn-secondary">Chat</button></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </template>
+        <template id="article_location_main_template" name="Article location template">
+            <article class="location box_shadow">
+                <a href="#" class="post-thumbnail" t-att-title="article.name">
+                    <img t-attf-class="zoom_image" t-if="article.feature_image" t-att-src="image_data_uri(article.feature_image)" t-attf-alt="article.name"/>
+                    <img t-attf-class="zoom_image" t-else="" t-attf-src="/khmerrealty/static/description/default.jpg" t-att-alt="article.name"/>
+                </a>
+                <div class="article-content-wrapper">
+                    <header class="entry-header">
+                        <a href="#" t-att-title="article.name">
+                            <h2 class="entry-title" t-field="article.name"/>
+                        </a>
+                    </header>
+                    <div class="entry-content">
+                        <ul class="buy_rent_by_location">
+                            <li class="buy">Buy: <t t-esc="article.property_by_location_buy_rent(article.id, 'buy')"/></li>
+                            <li class="rent">Rent: <t t-esc="article.property_by_location_buy_rent(article.id, 'rent')"/></li>
+                        </ul>
+                    </div>
+                </div>
+            </article>
+        </template>
+        <template id="article_location_template" name="Article location template">
+            <div class="article_location">
+                <span t-if="city" class="city" t-esc="city"/>
+                <span t-if="city_sub_1" class="city_sub1" t-esc="city_sub_1"/>
+                <span t-if="city_sub_2" class="city_sub2" t-esc="city_sub_1"/>
+            </div>
+        </template>
+        <template id="article_agency_horizontal_template" name="Agency horizontal template">
+            <article class="agency box_shadow">
+                <a href="#" class="post-thumbnail" t-att-title="article.name">
+                    <img t-attf-class="zoom_image" t-if="article.image_1920" t-att-src="image_data_uri(article.image_1920)" t-attf-alt="article.name"/>
+                    <img t-attf-class="zoom_image" t-else="" t-attf-src="/khmerrealty/static/description/default.jpg" t-att-alt="article.name"/>
+                </a>
+                <div class="article-content-wrapper">
+                    <header class="entry-header">
+                        <a href="#" t-att-title="article.name">
+                            <h2 class="entry-title" t-field="article.name"/>
+                        </a>
+                    </header>
+                    <div class="entry-content">
+                        <ul class="summary_agency">
+                            <li class="n_property" t-esc="article.count_property_by_agent(article)"/>
+                            <li class="n_project" t-esc="article.get_project_by_agency(article)"/>
+                            <li class="n_agent" t-esc="article.get_agent_by_agency_id(article)"/>
+                        </ul>
+                        <t t-call="khmerrealty.article_location_template"/>
+                    </div>
+                </div>
+            </article>
+        </template>
+        <template id="article_horizontal_tempalte" name="Article horizontal template">
+            <article class="box_shadow">
+                <a href="#" class="post-thumbnail" t-att-title="article.name" t-if="article.feature_image">
+                    <img t-attf-class="zoom_image" t-att-src="image_data_uri(article.image_255)" t-attf-alt="{{ article.name }}"/>
+                </a>
+                <div class="news_events_content_wrapper">
+                    <header class="entry-header">
+                        <a href="#" t-att-title="article.name">
+                            <h2 class="entry-title" t-field="article.name"/>
+                        </a>
+                    </header>
+                    <div class="entry-content">
+                        <t t-call="khmerrealty.article_location_template"/>
+                    </div>
+                </div>
+            </article>
+        </template>
+    </data>
+</odoo>

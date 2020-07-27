@@ -5,6 +5,8 @@ from datetime import datetime
 from odoo.exceptions import UserError
 from odoo.addons.http_routing.models.ir_http import slug
 from odoo.tools.translate import html_translate
+from odoo.tools import html2plaintext
+
 
 class Website(models.Model):
     _inherit = 'website'
@@ -138,6 +140,12 @@ class Property(models.Model):
     image_255 = fields.Image("Image 128", related="feature_image", max_width=255, max_height=210, store=True)
     image_gallery = fields.Many2many('ir.attachment', string="Images", required=True)
     property_create_date = fields.Date(default=datetime.today())
+    short_description = fields.Text(compute="_compute_short_description")
+
+    def _compute_short_description(self):
+        for record in self:
+            content = html2plaintext(record.description).replace('\n', ' ')
+            record.short_description = content[:200] + '...'
 
     def _default_website_meta(self):
         res = super(Property, self)._default_website_meta()
@@ -154,8 +162,8 @@ class Property(models.Model):
 
     def _compute_website_url(self):
         super(Property, self)._compute_website_url()
-        for blog_post in self:
-            blog_post.website_url = "/property/%s" % (slug(blog_post))
+        for record in self:
+            record.website_url = "/property/%s" % (slug(record))
 
     @api.model
     def create(self, val):
@@ -251,6 +259,12 @@ class Project(models.Model):
     image_255 = fields.Image("Image 255", related="feature_image", max_width=255, max_height=210, store=True)
     image_gallery = fields.Many2many('ir.attachment', string="Images", required=True)
     display_price = fields.Boolean(default=True)
+    short_description = fields.Text(compute="_compute_short_description")
+
+    def _compute_short_description(self):
+        for record in self:
+            content = html2plaintext(record.description).replace('\n', ' ')
+            record.short_description = content[:200] + '...'
 
     def _compute_image_128(self):
         for record in self:
@@ -288,7 +302,7 @@ class BlogPost(models.Model):
     _inherit = 'blog.post'
 
     feature_image = fields.Image(max_width=1920, max_height=1920, required=True)
-    image_160 = fields.Image("Image 160", related="feature_image", max_width=384, max_height=217, store=True)
+    image_384 = fields.Image("Image 384", related="feature_image", max_width=384, max_height=217, store=True)
     image_825 = fields.Image("Image 825", related="feature_image", max_width=825, max_height=465, store=True)
 
 

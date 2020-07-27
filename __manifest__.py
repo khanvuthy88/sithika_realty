@@ -32,6 +32,7 @@
         'views/ads_views.xml',
         'views/slide.xml',
         'views/assets.xml',
+        'views/new_template.xml',
         'views/templates.xml',
         'views/website_blog.xml',
         'views/res_group.xml',

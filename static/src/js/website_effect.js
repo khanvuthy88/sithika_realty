@@ -4,6 +4,60 @@ odoo.define('khmerrealty.website_effect', function (require) {
     var wUtils = require('website.utils');
     var publicWidget = require('web.public.widget');
     var _t = core._t;
+    publicWidget.registry.websiteRealtyHome = publicWidget.Widget.extend({
+        selector: '.o_wrealty',
+        events: {
+            'click ul.form_search_label li': '_onClickSearchLabel',
+            'click #o_website_realtysearch ul.search_label li': '_onClickSearchLabelPropertyListing',
+            'click ul.news_events_tap_title li': '_onClickNewsEventLabel',
+            'click ul.property_tab_label li': '_onClickNewsEventLabel'
+        },
+
+        /**
+         * @override
+         */
+        start: function () {
+            $('.property_rent_content').hide();
+            return this._super.apply(this, arguments);
+        },
+
+        _onClickSearchLabel: function(evt){
+            evt.preventDefault();
+            $(evt.currentTarget).addClass('active').siblings().removeClass('active');
+            $('#search_property_type').val(evt.currentTarget.dataset.type);
+            $('#search_text').attr("placeholder",evt.currentTarget.dataset.holder);
+        },
+
+        _onClickNewsEventLabel: function(evt){
+            evt.preventDefault();
+            $(evt.currentTarget).addClass('btn btn-primary').siblings().removeClass('btn btn-primary');
+            $('.'+evt.currentTarget.dataset.target).show('fast','swing').siblings().hide();
+        },
+
+        _onClickSearchLabelPropertyListing: function(evt){
+            evt.preventDefault();
+            $(evt.currentTarget).addClass('active').siblings().removeClass('active');
+            $('#search_property_type').val(evt.currentTarget.dataset.type);
+            $('#search_text').attr("placeholder",evt.currentTarget.dataset.holder);
+        },
+
+    });
+    publicWidget.registry.websiteRealtySearchForm = publicWidget.Widget.extend({
+        selector: '#slide #search_form',
+        events: {
+            'click ul.form_search_label li': '_showSearchForm',
+        },
+        start: function(){
+            return this._super.apply(this, arguments);
+        },
+
+        _showSearchForm: function(evt){
+            evt.preventDefault();
+            $(evt.currentTarget).addClass('active').siblings().removeClass('active');
+            $('#search_property_type').val(evt.currentTarget.dataset.type);
+            $('#search_text').attr("placeholder",evt.currentTarget.dataset.holder);
+        }
+    });
     publicWidget.registry.khmerrealty_js = publicWidget.Widget.extend({
         selector: '#o_guides_and_news_block',
         events: {
@@ -22,26 +76,7 @@ odoo.define('khmerrealty.website_effect', function (require) {
                 autoStart : true
               }
             });
-            $('.owl-carousel').owlCarousel({
-                loop:true,
-                margin:10,
-                responsiveClass:true,
-                responsive:{
-                    0:{
-                        items:1,
-                        nav:true
-                    },
-                    600:{
-                        items:3,
-                        nav:false
-                    },
-                    1000:{
-                        items:5,
-                        nav:true,
-                        loop:false
-                    }
-                }
-            });
+
             return this._super.apply(this, arguments);
         },
         _showGuides: function(evt){

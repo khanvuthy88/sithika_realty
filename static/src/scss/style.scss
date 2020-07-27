@@ -2175,17 +2175,3 @@ ul{
         transform: unset;
     }
 }
-select{
-    &#search_location{
-        padding: 15px 20px;
-        height: auto;
-        border-radius: 0px;
-        @include media-breakpoint-up(xs){
-            width: 100%;
-            border: 0px;
-        }
-        @include media-breakpoint-up(md){
-            width: 30%;
-        }
-    }
-}
