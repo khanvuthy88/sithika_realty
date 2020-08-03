@@ -12,7 +12,7 @@ class Website(Website):
     @http.route(auth='public')
     def index(self, data={}, **kw):
         super(Website, self).index(**kw)
-        base_url = request.env['ir.config_parameter'].sudo().get_param('web.base.url')
+        base_url = 'http://sithikarealty.com'
         has_property = False
         property_obj = request.env['khmerrealty.property']
         location_obj = request.env['khmerrealty.property.location'].search([('parent_id', '=', False)])
@@ -46,7 +46,7 @@ class Website(Website):
             'top_three_guide': top_three_guide,
             'slide_show': slides,
             'next_slides': next_slides,
-            'base_url': base_url + '/',
+            'base_url': base_url,
         })
 
 

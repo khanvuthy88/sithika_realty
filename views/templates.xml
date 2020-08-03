@@ -738,7 +738,7 @@
         </template>
         <template id="home_slide_show" inherit_id="website.layout">
             <xpath expr="//div[@id='wrapwrap']/header[@id='top']/nav" position="after">
-                <section id="slide" t-if="request.httprequest.url == base_url">
+                <section id="slide" t-if="request.httprequest.url == 'http://sithikarealty.com'">
                     <div id="carouselTopIndicators" data-interval="false" class="carousel slide carousel-fade" data-ride="carousel">
                         <ol class="carousel-indicators">
                             <t t-foreach="slide_show" t-as="slide">
