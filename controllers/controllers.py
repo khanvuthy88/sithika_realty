@@ -13,7 +13,7 @@ class Website(Website):
     def index(self, data={}, **kw):
         super(Website, self).index(**kw)
         base_url = 'http://sithikarealty.com'
-        show_slide = true
+        show_slide = True
         has_property = False
         property_obj = request.env['khmerrealty.property']
         location_obj = request.env['khmerrealty.property.location'].search([('parent_id', '=', False)])
