@@ -48,7 +48,7 @@
                                         <field name="floor_area"/>
                                         <field name="floor"/>
                                         <field name="bedroom_in_unite"/>
-                                        <field name="unite_type" widget="many2many_tags"/>
+                                        <field name="unite_type"/>
                                         <field name="complete_year"/>
                                         <field name="total_unite"/>
                                     </group>

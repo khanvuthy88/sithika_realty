@@ -5,6 +5,7 @@ from odoo.addons.http_routing.models.ir_http import slug
 from odoo.addons.website.controllers.main import QueryURL
 from odoo.osv import expression
 from odoo.addons.website.controllers.main import Website
+from odoo.addons.website_blog.controllers.main import WebsiteBlog
 
 
 class Website(Website):
@@ -45,7 +46,20 @@ class Website(Website):
             'top_three_guide': top_three_guide,
             'slide_show': slides,
             'next_slides': next_slides,
-            'base_url': base_url+'/',
+            'base_url': base_url + '/',
+        })
+
+
+class WebsiteBlog(WebsiteBlog):
+    @http.route(auth='public')
+    def blog_post(self, data={}, **kw):
+        super(WebsiteBlog, self).blog_post(**kw)
+        article = request.env['blog.post'].search([('id', '=', kw.get('blog_post').id)], limit=1)
+        advertising_images = request.env["khmerrealty.advertising"].search([('show_in', '=', 'blog_post')],
+                                                                           limit=3)
+        return http.request.render('khmerrealty.blog_post_single_article', {
+            'article': article,
+            'advertising_images': advertising_images,
         })
 
 
@@ -110,9 +124,9 @@ class Khmerrealty(http.Controller):
                                       step=6, scope=self._pager_step_ppg)
         news = news_obj.search([('blog_id', '=', 2)], limit=6, offset=pager['offset'])
 
-        return http.request.render('khmerrealty.render_blog_template', {
+        return http.request.render('khmerrealty.blog_post_list_template', {
             'banners': http.request.env['khmerrealty.advertising'].search([('show_in', '=', 'blog_post')], limit=3),
-            'blogs': news,
+            'blog_obj': news,
             'blog_type': 'News',
             'pager': pager,
         })
@@ -159,10 +173,12 @@ class Khmerrealty(http.Controller):
             'property_type_obj': property_type_obj,
         })
 
-    @http.route('/property/<model("khmerrealty.type"):property_type>/<model("khmerrealty.property"):record>', auth='public', website=True)
+    @http.route('/property/<model("khmerrealty.type"):property_type>/<model("khmerrealty.property"):record>',
+                auth='public', website=True)
     def single_property(self, record, **kw):
         property_root_url = QueryURL('/property-listing')
         property_type_url = ''
+        locations = request.env['khmerrealty.property.location'].search([('parent_id', '=', False)])
         if record.property_category == 'buy':
             property_type_url = '/property/buy'
         elif record.property_category == 'rent':
@@ -177,6 +193,7 @@ class Khmerrealty(http.Controller):
                 limit=4, order='id desc'),
             'property_root_url': property_root_url,
             'property_type_url': property_type_url,
+            'locations': locations,
         })
 
     @http.route(['/property/author/<model("res.partner"):author_id>/',
@@ -208,7 +225,7 @@ class Khmerrealty(http.Controller):
                                       step=self._property_per_page, scope=self._pager_step_ppg)
         properties_obj = properties.search([('property_city', '=', location_id.id)], limit=self._property_per_page,
                                            offset=pager['offset'])
-        return http.request.render('khmerrealty.property_by_location', {
+        return http.request.render('khmerrealty.property_listing', {
             'banners': http.request.env['khmerrealty.advertising'].search([('show_in', '=', 'property')], limit=3),
             'properties': properties_obj,
             'location': location_id,
@@ -234,11 +251,12 @@ class Khmerrealty(http.Controller):
             'project_count': project_count,
             'pager': pager,
             'property_type': property_type,
-            'property_location': locations,
+            'locations': locations,
             'property_type_obj': property_type_obj,
         })
 
-    @http.route('/project/<model("khmerrealty.project"):project_id>/', auth='public', website=True)
+    @http.route('/project/<model("khmerrealty.type"):project_type>/<model("khmerrealty.project"):project_id>/',
+                auth='public', website=True)
     def single_project(self, project_id, **kw):
         related_project = http.request.env['khmerrealty.project'].search([
             ('project_city', '=', project_id.project_city.id),
@@ -270,11 +288,28 @@ class Khmerrealty(http.Controller):
         properties = request.env['khmerrealty.property'].search([('property_author.parent_id', '=', agency_id.id)])
         agents = request.env['res.partner'].search([('parent_id', '=', agency_id.id)])
         projects = request.env['khmerrealty.project'].search([('project_author.parent_id', '=', agency_id.id)])
-        return http.request.render('khmerrealty.single-agency_page', {
+        return http.request.render('khmerrealty.page-single-agency', {
             'agency': agency_id,
             'properties': properties,
             'agents': agents,
             'projects': projects,
+        })
+
+    @http.route(['/agent/<model("res.partner"):author_id>/',
+                 '/agent/<model("res.partner"):author_id>/page/<int:page>'], auth='public', website=True)
+    def property_by_author(self, author_id, page=1, **kw):
+        properties = request.env['khmerrealty.property']
+        property_count = properties.search_count([('property_author', '=', author_id.id)])
+        if author_id:
+            url = "/agent/%s" % slug(author_id)
+        pager = request.website.pager(url=url, total=property_count, page=page,
+                                      step=self._property_per_page, scope=self._pager_step_ppg)
+        return http.request.render('khmerrealty.property_by_author', {
+            'banners': http.request.env['khmerrealty.advertising'].search([('show_in', '=', 'property')], limit=3),
+            'properties': properties.search([('property_author', '=', author_id.id)], limit=self._property_per_page,
+                                            offset=pager['offset']),
+            'author': author_id,
+            'pager': pager,
         })
 
     @http.route(['/property/rent',
@@ -295,8 +330,9 @@ class Khmerrealty(http.Controller):
             'properties': properties,
             'pager': pager,
             'property_type': property_type,
-            'property_location': locations,
+            'locations': locations,
             'property_type_obj': property_type_obj,
+            'search_property_type': 'rent',
         })
 
     @http.route(['/property/buy',
@@ -317,13 +353,14 @@ class Khmerrealty(http.Controller):
             'properties': properties,
             'pager': pager,
             'property_type': property_type,
-            'property_location': locations,
+            'locations': locations,
             'property_type_obj': property_type_obj,
+            'search_property_type': 'buy',
         })
 
     @http.route(['/search/',
                  '/search/page/<int:page>'], auth='public', website=True)
-    def search_property(self, page=1, search_value='', search_type='', ppg=False, **kw):
+    def search_property(self, page=1, search_value='', search_property_type='', ppg=False, **kw):
         search_table = 'khmerrealty.property'
         domain = []
         d_type = ['buy', 'rent']
@@ -336,10 +373,10 @@ class Khmerrealty(http.Controller):
                 kw['ppg'] = ppg
             except ValueError:
                 ppg = False
-        if search_type:
-            kw['search_type'] = search_type
-            if search_type in d_type:
-                s_type = ('property_category', '=', search_type)
+        if search_property_type:
+            kw['search_type'] = search_property_type
+            if search_property_type in d_type:
+                s_type = ('property_category', '=', search_property_type)
                 domain.append(s_type)
         s_location = ('property_city', '=', int(kw['search_location']))
         domain.append(s_location)
@@ -351,19 +388,19 @@ class Khmerrealty(http.Controller):
                 domain.append(sub_domain)
                 des_s = ('description', 'ilike', srch)
                 domain.append(des_s)
-        print(domain)
         record_count = record_obj.search_count(domain)
         pager = request.website.pager(url=url, total=record_count, page=page, step=self._property_search_page,
                                       scope=self._pager_step_ppg,
                                       url_args=kw)
         records = record_obj.search(domain, limit=self._property_search_page, offset=pager['offset'])
         locations = request.env['khmerrealty.property.location'].search([('parent_id', '=', False)])
-        return http.request.render('khmerrealty.search_property_template', {
+        return http.request.render('khmerrealty.property_listing', {
+            'search_location': int(kw.get('search_location')),
             'properties': records,
-            'search_type': search_type,
+            'search_property_type': search_property_type,
             'pager': pager,
-            'search_value': search_value,
-            'property_location': locations,
+            'search_text': kw.get('search_text'),
+            'locations': locations,
             'banners': http.request.env['khmerrealty.advertising'].search([('show_in', '=', 'property')], limit=3),
         })
 

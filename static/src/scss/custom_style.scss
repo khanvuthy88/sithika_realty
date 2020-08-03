@@ -23,6 +23,15 @@ $primary: #3a86cb;
 h2{
     font-size: 1.1rem;
 }
+a{
+    color: $primary-color;
+    &:hover{
+        color: darken($primary-color, 20%);
+    }
+    &:active{
+        color: lighten($primary-color, 10%);
+    }
+}
 .container{
     @include media-breakpoint-up(lg) {
         max-width: 1210px;
@@ -429,7 +438,10 @@ header{
 #feature_property_homepage,
 #feature_agency_homepage,
 #feature_location_hompage,
-#related_property{
+#related_property,
+#related_project,
+#agency_page,
+#agent_content{
     .popular_property_title_tab{
         display: grid;
         row-gap: 15px;
@@ -518,6 +530,50 @@ header{
             }
         }
     }
+}
+#agency_page{
+    .inner_wrapper{
+        @include media-breakpoint-up(md){
+            grid-template-columns: repeat(2, 1fr);
+        }
+        @include media-breakpoint-up(lg){
+            grid-template-columns: repeat(3, 1fr);
+        }
+    }
+}
+#agent_content{
+    .inner_wrapper{
+        @include media-breakpoint-up(md){
+            grid-template-columns: repeat(2, 1fr) !important;
+        }
+        @include media-breakpoint-up(lg){
+            grid-template-columns: repeat(3, 1fr) !important;
+        }
+        @include media-breakpoint-up(xl){
+            grid-template-columns: repeat(4, 1fr) !important;
+        }
+        article{
+            .post-thumbnail{
+                img{
+                    height: 100% !important;
+                }
+            }
+            .entry-content{
+                grid-template-columns: repeat(2, 1fr) !important;
+                @extend %mp_zero;
+                padding: 0px !important;
+                li{
+                    @extend %ls_none;
+                    display: flex;
+                    flex-direction: column;
+                    text-align: center;
+                }
+            }
+        }
+    }
+}
+#about_content{
+    overflow: hidden;
 }
 #feature_location_hompage{
     .inner_wrapper{
@@ -710,7 +766,8 @@ footer{
         }
     }
 }
-#property_listing{
+#property_listing,
+#agency_property_agent{
     width: 100%;
     display: block;
     position: relative;
@@ -724,11 +781,13 @@ footer{
             column-gap: 35px;
         }
     }
-    .property_list_view{
+    .property_list_view,
+    ._o_agency_tab_content{
         display: block;
         width: 100%;
         position: relative;
-        .inner_wrapper{
+        .inner_wrapper,
+        #agency_property_content{
             display: grid;
             row-gap: 15px;
             grid-template-columns: repeat(1, 1fr);
@@ -846,6 +905,131 @@ footer{
         
     }
 }
+#project_listing_page{
+    width: 100%;
+    display: block;
+    position: relative;
+    .project_wrapper{
+        width: 100%;
+        display: block;
+        position: relative;
+        .inner_wrapper{
+            display: grid;
+            row-gap: 15px;
+            grid-template-columns: repeat(1, 1fr);
+            article{
+                a{
+                    text-decoration: none;
+                }
+                .post-thumbnail{
+                    width: 100%;
+                    display: block;
+                    position: relative;
+                    overflow: hidden;
+                    height: 203px;
+                    img{
+                        width: 100%;
+                        height: auto;
+                        object-fit: cover;
+                        @include media-breakpoint-up(md){
+                            height: 180px;
+                        }
+                    }
+                }
+                &.list_view{
+                    display: grid;
+                    grid-template-columns: 100%;
+                    @include media-breakpoint-up(md){
+                        grid-template-columns: 30% 70%;
+                        height: 180px;
+                        overflow: hidden;
+                    }                    
+                }
+                .article-content-wrapper{
+                    padding: 15px;
+                    .entry-header{
+                        width: 100%;
+                        display: block;
+                    }
+                    .entry-content{
+                        width: 100%;
+                        display: grid;
+                        grid-template-columns: 100%;
+                        @include media-breakpoint-up(md){
+                            grid-template-columns: 70% 30%;
+                        }
+                        .short_description_author{
+                            width: 100%;
+                            height: auto;
+                            position: relative;
+                            .article_author{
+                                margin-top: 15px;
+                                @include media-breakpoint-up(md){
+                                    display: none;
+                                }
+                                @include media-breakpoint-up(xl){
+                                    display: block;
+                                }
+                                a{
+                                    &.article_author_avatar_name{
+                                        width: 100%;                                        
+                                        display: grid;
+                                        grid-template-columns: 25px auto;
+                                        height: 25px;
+                                        align-items: center;
+                                        img{
+                                            width: 100%;
+                                            display: block;
+                                            height: 100%;
+                                            border-radius: 50%;
+                                            border: 1px solid;
+                                        }
+                                        p{
+                                            &.author_name{
+                                                margin-bottom: 0px;
+                                                margin-left: 10px;
+                                                text-transform: uppercase;
+                                                font-weight: bold;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        .article_price_actions{
+                            width: 100%;
+                            display: block;
+                            @include media-breakpoint-up(md){
+                                padding: 0px 15px;
+                            }
+                            .article_price{
+                                display: block;
+                                width: 100%;
+                                span{
+                                    &.price{
+                                        font-weight: bold;
+                                        font-size: 1.5rem;
+                                        margin: auto;
+                                        color: red;
+                                    }
+                                }
+                            }
+                            .actions{
+                                display: grid;
+                                grid-template-columns: repeat(2, 1fr);
+                                column-gap: 15px;
+                                width: 100%;
+                                button{
+                                    width: 100%;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
 #search_form_not_home,
 #single_property_search{
     padding: 30px 0px;
@@ -918,9 +1102,14 @@ footer{
     width: 100%;
     display: block;
     overflow: hidden;
+    @include media-breakpoint-up(md){
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-gap: 15px;
+    }
     .ads_banner{
         width: 100%;
-        display: block;
+        display: block;        
         a{
             width: 100%;
             display: block;
@@ -993,7 +1182,8 @@ footer{
             grid-template-columns: repeat(2, 1fr);
         }
         @include media-breakpoint-up(lg){
-            grid-template-columns: 70% 30%;
+            grid-template-columns: 70% 28%;
+            grid-gap: 2%;
         }
         .property_detail_single{
             ul.inner_wrraper{
@@ -1164,5 +1354,399 @@ span{
             margin-left: 5px;
             margin-right: 0px;
         }
+    }
+}
+.single_project{
+    width: 100%;
+    display: block;
+    position: relative;
+    .inner_wrapper{
+        display: grid;
+        width: 100%;
+        @include media-breakpoint-up(md){
+            grid-template-columns: 60% 38%;
+            grid-gap: 2%;
+        }
+        @include media-breakpoint-up(lg){
+            grid-template-columns: 70% 28%;
+            grid-gap: 2%;
+        }
+        .project_detail{
+            width: 100%;
+            position: relative;
+            display: block;
+            ul.inner_wrapper{
+                margin: 0;
+                padding: 0;
+                display: grid;
+                grid-template-columns: repeat(2,1fr);
+                grid-gap: 5px;
+                margin-bottom: 15px;
+                li{
+                    list-style: none;
+                }
+            }
+        }
+    }
+}
+.banner_adds{
+    a.post-thumbnail{
+        width: 100%;
+        display: block;
+        position: relative;
+        overflow: hidden;
+        margin-bottom: 15px;
+        img{
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+    }
+}
+#agency_image_short_description{
+    .agency_logo_short_description{
+        display: block;
+        width: 100%;
+        padding: 15px;
+        border: 1px solid #eeeeee;
+    }
+    .inner_wrapper{
+        display: grid;
+        grid-gap: 2%;
+        grid-template-columns: 38% 60%;
+        @include media-breakpoint-up(md){
+            grid-template-columns: 25% 73%;
+        }
+        @include media-breakpoint-up(lg){
+            grid-template-columns: 20% 78%;
+        }
+        figure{
+            width: 100%;
+            height: auto;
+            margin: 0;
+            img{
+                width: 100%;
+                height: auto;
+                display: block;
+            }
+        }
+        .short_description{
+            display: block;
+            ul.email_tel_address{
+                display: block;
+                @extend %mp_zero;
+                li{
+                    @extend %ls_none;
+                }
+            }
+        }
+    }
+}
+#agency_property_agent{
+    width: 100%;
+    display: block;
+    .inner_wrapper{
+        display: block;
+        ul._o_agency_tab_label{
+            @extend %mp_zero;
+            width: 100%;
+            position: relative;
+            list-style-type: none;
+            border-bottom: 1px solid #eeeeee;
+            li{
+                @extend %ls_none;
+                cursor: pointer;
+                display: inline-block;
+                padding: 0 24px;
+                height: 48px;
+                line-height: 48px;
+                text-transform: uppercase;
+                &.active{
+                    color: $primary-color;
+                    border-bottom: 2px solid $primary-color;
+                }
+            }
+            .indicator{
+                position: absolute;
+                bottom: 0;
+                height: 2px;
+                background-color: #f6b2b5;
+            }
+        }
+        ._o_agency_tab_content{
+            display: block;
+            width: 100%;
+            padding: 15px 0;
+        }
+    }
+}
+#property_by_author{
+    width: 100%;
+    display: block;
+    position: relative;
+    .author_avatar_short_description{
+        width: 100%;
+        display: grid;
+        grid-template-columns: 30% 70%;
+        height: 100%;
+        @include media-breakpoint-up(md){
+            height: 160px;
+        }
+        @include media-breakpoint-up(xl){
+            height: 160px;
+            grid-template-columns: 20% 80%;
+        }
+        a{
+            display: block;
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+            img{
+                width: 100%;
+                display: block;
+            }
+        }
+        .short_description{
+            display: block;
+            padding: 15px;
+            width: 100%;
+            background-color: $primary-color;
+            color: #ffffff;
+            a{
+                color: #ffffff;
+                text-decoration: none;
+            }
+        }
+    }
+    .inner_wrapper{
+        width: 100%;
+        @include media-breakpoint-up(lg){
+            display: grid;
+            grid-template-columns: 70% 28%;
+            grid-gap: 2%;
+        }
+        .author_property_list{
+            width: 100%;
+            display: block;
+            position: relative;
+            margin-bottom: 15px;
+            article{
+                width: 100%;
+                display: block;
+                margin-bottom: 15px;
+                @include media-breakpoint-up(md){
+                    display: grid;
+                    grid-template-columns: 30% 70%;
+                }
+                &:first-child{
+                    margin-top: 15px;
+                }
+                &:last-child{
+                    margin-bottom: 0px;
+                }
+                a{
+                    width: 100%;
+                    display: block;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-decoration: none;
+                    h2{
+                        width: 100%;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                    }
+                    img{
+                        width: 100%;
+                        display: block;
+                        @include media-breakpoint-up(md){
+                            height: 100%;
+                            object-fit: cover;
+                        }
+                    }
+                }
+                .entry-content{
+                    p{
+                        @include media-breakpoint-up(md){
+                            margin-bottom: 0px;
+                        }
+                    }
+                    @include media-breakpoint-up(md){
+                        display: grid;
+                        grid-template-columns: 70% 30%;
+                    }
+                }
+                .article-content-wrapper{
+                    width: 100%;
+                    padding: 15px;
+                    .article_author{
+                        a{
+                            width: 100%;
+                            display: flex;
+                            align-items: center;
+                            img{
+                                width: 60px;
+                                display: block;
+                                height: 60px;
+                                object-fit: cover;
+                                border-radius: 50%;
+                                border: 1px solid $primary-color;
+                                margin-right: 15px;    
+                                @include media-breakpoint-up(md){
+                                    width: 25px;
+                                    height: 25px;
+                                }                        
+                            }
+                            p{
+                                width: 100%;
+                                text-transform: uppercase;
+                                font-weight: bold;
+                            }
+                        }
+                    }
+                    .article_price_actions{
+                        width: 100%;
+                        padding: 15px 0px;
+                        display: block;
+                        padding-bottom: 0px;
+                        @include media-breakpoint-up(md){
+                            padding: 0px;
+                        }
+                        .article_price{
+                            display: none;                            
+                            @include media-breakpoint-up(md){
+                                display: block;    
+                                text-align: center;    
+                            }
+                            span.price{
+                                font-weight: bold;
+                                font-size: 1.5rem;
+                                margin: auto;
+                                color: red;
+                            }
+                        }
+                        .actions{
+                            width: 100%;
+                            display: grid;
+                            grid-template-columns: repeat(2, 1fr);
+                            grid-gap: 15px;
+                            button{
+                                width: 100%;
+                                border-radius: 0px;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        .banner_right{
+            @include media-breakpoint-up(lg){
+                grid-template-columns: 100%;
+                margin-top: 15px;
+            }
+        }
+    }    
+}
+#blog_post_single_article{
+    display: block;
+    width: 100%;
+    article{
+        img{
+            width: 100%;
+            margin: 15px 0px;
+        }
+    }    
+}
+#secondary{
+    #banner_ads{
+        a{
+            width: 100%;
+            display: block;
+            position: relative;
+            img{
+                width: 100%;
+                display: block;
+                position: relative;
+            }
+        }
+    }
+}
+#blog_post_list{
+    width: 100%;
+    display: block;
+    position: relative;
+    .blog_list_wrapper{
+        width: 100%;
+        display: block;
+        position: relative;
+        .inner_wrapper{
+            display: block;
+            @include media-breakpoint-up(md){
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                grid-gap: 15px;
+            }
+            @include media-breakpoint-up(lg){
+                grid-template-columns: repeat(3, 1fr);
+            }
+            @include media-breakpoint-up(xl){
+                grid-template-columns: repeat(3, 1fr);
+            }
+            article{
+                display: block;
+                margin-bottom: 15px;   
+                overflow: hidden;
+                @include media-breakpoint-up(md){
+                    margin-bottom: 0;
+                }             
+                header{
+                    &.entry-header{
+                        h2.entry-title{
+                            padding: 15px;
+                            padding-bottom: 0px;
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                        } 
+                    }
+                    .entry-meta{
+                        padding: 0px 15px;
+                    }
+                }
+                a{
+                    display: block;
+                    width: 100%;
+                    text-decoration: none;   
+                    white-space: nowrap;                 
+                    &.post-thumbnail{
+                        width: 100%;
+                        display: block;
+                        position: relative;
+                        overflow: hidden;
+                        @include media-breakpoint-up(lg){
+                            height: 200px;
+                        }
+                    }
+                    img{
+                        width: 100%;
+                        display: block;
+                        position: relative;
+                        @include media-breakpoint-up(lg){
+                            height: 100%;
+                            object-fit: cover;
+                        }
+                    }
+                }
+                .entry-content{
+                    padding: 15px;
+                    display: block;
+                    padding-top: 7px;
+                }
+            }
+        }
+    }
+}
+.news_event_tap_wrraper{
+    display: block;
+    h2{
+        margin-bottom: 0px;
     }
 }

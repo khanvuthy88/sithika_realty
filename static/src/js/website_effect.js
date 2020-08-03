@@ -10,7 +10,8 @@ odoo.define('khmerrealty.website_effect', function (require) {
             'click ul.form_search_label li': '_onClickSearchLabel',
             'click #o_website_realtysearch ul.search_label li': '_onClickSearchLabelPropertyListing',
             'click ul.news_events_tap_title li': '_onClickNewsEventLabel',
-            'click ul.property_tab_label li': '_onClickNewsEventLabel'
+            'click ul.property_tab_label li': '_onClickNewsEventLabel',
+            'click ul._o_agency_tab_label li': '_onClickAgencyTabLabel'
         },
 
         /**
@@ -40,6 +41,12 @@ odoo.define('khmerrealty.website_effect', function (require) {
             $('#search_property_type').val(evt.currentTarget.dataset.type);
             $('#search_text').attr("placeholder",evt.currentTarget.dataset.holder);
         },
+
+        _onClickAgencyTabLabel: function(evt){
+            evt.preventDefault();
+            $(evt.currentTarget).addClass('active').siblings().removeClass('active');
+            $(evt.currentTarget.dataset.target).show(1000).siblings().hide();
+        }
 
     });
     publicWidget.registry.websiteRealtySearchForm = publicWidget.Widget.extend({

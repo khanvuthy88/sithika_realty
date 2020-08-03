@@ -40,12 +40,18 @@ class WebsiteConfig(models.TransientModel):
 
 class PropertyLocation(models.Model):
     _name = 'khmerrealty.property.location'
+    _inherit = ['mail.thread', "website.seo.metadata", 'website.published.multi.mixin']
 
     name = fields.Char(translate=html_translate)
     parent_id = fields.Many2one('khmerrealty.property.location')
     feature_image = fields.Image(max_width=1920, max_height=1920)
     feature_location = fields.Boolean()
     sequence = fields.Integer()
+
+    def _compute_website_url(self):
+        super(PropertyLocation, self)._compute_website_url()
+        for record in self:
+            record.website_url = "property/location/%s" % slug(record)
 
     def property_by_location_buy_rent(self, location, category):
         property_obj = self.env['khmerrealty.property'].search_count([
@@ -146,7 +152,7 @@ class Property(models.Model):
 
     def _compute_property_id(self):
         for record in self:
-            record.readable_id = 'SRID{}'.format(record.id)
+            record.readable_id = 'SRPID{}'.format(record.id)
 
     @api.depends('property_city.name', 'property_district.name', 'property_commune.name')
     def _compute_property_address(self):
@@ -260,7 +266,7 @@ class Project(models.Model):
     street_name = fields.Char(translate=True, required=True)
     street_number = fields.Char(translate=True, required=True)
     total_unite = fields.Float(digits=(12, 2), required=True)
-    unite_type = fields.Many2many('khmerrealty.type', required=True)
+    unite_type = fields.Many2one('khmerrealty.type', required=True)
     price = fields.Float(digits=(12, 2), required=True)
     bedroom_in_unite = fields.Integer()
     floor_area = fields.Float(digits=(12, 2), required=True)
@@ -272,6 +278,11 @@ class Project(models.Model):
     image_gallery = fields.Many2many('ir.attachment', string="Images", required=True)
     display_price = fields.Boolean(default=True)
     short_description = fields.Text(compute="_compute_short_description")
+    readable_id = fields.Char(compute="_compute_readable_id")
+
+    def _compute_readable_id(self):
+        for record in self:
+            record.readable_id = 'SRPID{}'.format(record.id)
 
     def _compute_website_url(self):
         super(Project, self)._compute_website_url()
@@ -321,6 +332,12 @@ class BlogPost(models.Model):
     feature_image = fields.Image(max_width=1920, max_height=1920, required=True)
     image_384 = fields.Image("Image 384", related="feature_image", max_width=384, max_height=217, store=True)
     image_825 = fields.Image("Image 825", related="feature_image", max_width=825, max_height=465, store=True)
+    short_description = fields.Char(compute='_compute_short_description')
+
+    def _compute_short_description(self):
+        for record in self:
+            content = html2plaintext(record.subtitle).replace('\n', ' ')
+            record.short_description = content[:70] + '...'
 
 
 class ResPartner(models.Model):
@@ -333,6 +350,16 @@ class ResPartner(models.Model):
                               domain=[('parent_id', '=', False)])
     district_vt = fields.Many2one('khmerrealty.property.location', string='District')
     commune_vt = fields.Many2one('khmerrealty.property.location', string='Commune')
+    agent_website_url = fields.Char(compute="_compute_agent_website_url")
+
+    def _compute_agent_website_url(self):
+        for partner in self:
+            partner.agent_website_url = "/agent/%s" % slug(partner)
+
+    def _compute_website_url(self):
+        super(ResPartner, self)._compute_website_url()
+        for partner in self:
+            partner.website_url = "/agency/%s" % slug(partner)
 
     @api.onchange('city_vt')
     def onchange_city_vt(self):
