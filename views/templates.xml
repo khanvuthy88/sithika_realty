@@ -603,13 +603,35 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="top_contact_info_wrapper">
-                                    <a t-if="website.social_facebook" t-att-href="website.social_facebook" class="btn btn-sm btn-link"><i class="fa fa-2x fa-facebook-square"/></a>
-                                    <a t-if="website.social_twitter" t-att-href="website.social_twitter" class="btn btn-sm btn-link"><i class="fa fa-2x fa-twitter"/></a>
-                                    <a t-if="website.social_linkedin" t-att-href="website.social_linkedin" class="btn btn-sm btn-link"><i class="fa fa-2x fa-linkedin"/></a>
-                                    <a t-if="website.social_youtube" t-att-href="website.social_youtube" class="btn btn-sm btn-link"><i class="fa fa-2x fa-youtube-play"/></a>
-                                    <a t-if="website.social_github" t-att-href="website.social_github" class="btn btn-sm btn-link"><i class="fa fa-2x fa-github"/></a>
-                                    <a t-if="website.social_instagram" t-att-href="website.social_instagram" class="btn btn-sm btn-link"><i class="fa fa-2x fa-instagram"/></a>
-                                    <a href="https://vt.tiktok.com/SUAdr7/"><img t-attf-style="width:30px; height: auto;" t-attf-src="/khmerrealty/static/description/icons/ticktok.png"/></a>
+                                    <ul class="langs_app_tel">
+                                        <li class="app"></li>
+                                        <li class="desktop_show">
+                                            <img src="/khmerrealty/static/description/icons/phone-1.svg" width="30px" height="30px"/>
+                                            <a href="tel:+85589602525">+(855) 89 60 25 25</a>
+                                        </li>
+                                        <li class="mobile_show">
+                                            <a href="tel:+85589602525">
+                                                <img src="/khmerrealty/static/description/icons/phone-1.svg" width="30px" height="30px"/>
+                                            </a>
+                                        </li>
+                                        <li class="list-inline-item langs">
+                                            <div class="dropup">
+                                                <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                                    <span t-esc="list(filter(lambda lg : lg[0] == lang, languages))[0][2].split('/').pop()"/>
+                                                    <span class="caret ml4"/>
+                                                </button>
+                                                <div class="dropdown-menu" role="menu">
+                                                    <t t-foreach="languages" t-as="lg">
+                                                        <a t-att-href="url_for(request.httprequest.path + '?' + keep_query(), lang_code=lg[0])"
+                                                           class="dropdown-item js_change_lang"
+                                                           t-att-data-url_code="lg[1]">
+                                                            <t t-esc="lg[2].split('/').pop()"/>
+                                                        </a>
+                                                    </t>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
                                 </div>
                             </div>
                         </div>
@@ -1719,7 +1741,7 @@
             <field name="sequence" type="int">99</field>
         </record>
         <record id="khmer_realty_home_page" model="website.page">
-            <field name="name">Services page</field>
+            <field name="name">Sithika Realty</field>
             <field name="website_published">True</field>
             <field name="url">/services</field>
             <field name="view_id" ref="home_page"/>

@@ -139,7 +139,10 @@ a{
         height: 500px;
     }
     #carouselTopIndicators{
-        height: 100%;
+        height: 300px;
+        @include media-breakpoint-up(md){
+            height: 100%;
+        }
         .carousel-inner{
             height: 100%;
         }
@@ -150,6 +153,7 @@ a{
             height: 100%;
             img{
                 display: block;
+                object-fit: cover;
                 @include media-breakpoint-up(md){
                     width: 100%;
                 }
@@ -400,7 +404,10 @@ a{
         a{
             transition: all .3s ease-in-out;
             padding: 0;
-            margin-right: 5px;
+            margin-right: 1px;
+            @include media-breakpoint-up(md){
+                margin-right: 5px;
+            }
             .fa{
                 width: 30px;
                 height: 30px;
@@ -417,6 +424,51 @@ a{
                     background-color: #ffffff;
                     border: 2px solid $primary-color;
                     color: $primary-color;
+                }
+            }
+        }
+    }
+    .col-md-6{
+        width: 50%;
+        .top_contact_info_wrapper{
+            padding: 3px 0px;
+            margin-left: 13px;
+            @include media-breakpoint-up(md){
+                margin-left: 0px;
+            }
+            ul{
+                @extend %mp_zero;
+                display: flex;
+                align-items: center;
+                li{
+                    @extend %ls_none;
+                    margin-right: 5px;
+                    &.app{
+                        &:before{                            
+                            background-image: url('/khmerrealty/static/description/app.svg');
+                            width: 30px;
+                            height: 30px;
+                            display: block;
+                            content: '';
+                            float: left;
+                        }
+                    }
+                    &.tel{
+                        &:before{
+                            background-image: url('/khmerrealty/static/description/icons/phone-1.svg');
+                            width: 30px;
+                            height: 30px;
+                            display: block;
+                            content: '';
+                            float: left;
+                        }
+                    }
+                    &.langs{
+                        .btn-secondary{
+                            background-color: $primary-color;
+                            border-color: $primary-color;
+                        }
+                    }
                 }
             }
         }
@@ -1748,5 +1800,37 @@ span{
     display: block;
     h2{
         margin-bottom: 0px;
+    }
+}
+.desktop_show{
+    display: none;
+    @include media-breakpoint-up(md){
+        display: block;
+    }
+}
+.mobile_show{
+    display: block;
+    @include media-breakpoint-up(md){
+        display: none;
+    }
+}
+ul.text-right{
+    text-align: left !important;
+    li{
+        a{
+            color: #333333 !important;
+        }
+    }
+}
+footer{
+    ul.js_language_selector{
+        a{
+            color: #333333 !important;
+        }
+    }
+    .o_footer_copyright{
+        .text-muted{
+            color: #ffffff !important;
+        }
     }
 }
