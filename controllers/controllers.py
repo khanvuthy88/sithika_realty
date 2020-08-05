@@ -142,9 +142,9 @@ class Khmerrealty(http.Controller):
                                       step=6, scope=self._pager_step_ppg)
         news = news_obj.search([('blog_id', '=', 1)], limit=6, offset=pager['offset'])
 
-        return http.request.render('khmerrealty.render_blog_template', {
+        return http.request.render('khmerrealty.blog_post_list_template', {
             'banners': http.request.env['khmerrealty.advertising'].search([('show_in', '=', 'blog_post')], limit=3),
-            'blogs': news,
+            'blog_obj': news,
             'blog_type': 'Events',
             'pager': pager,
         })
