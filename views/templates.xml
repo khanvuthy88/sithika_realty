@@ -1237,9 +1237,11 @@
                                     </div>
                                 </div>
                                 <div class="banner_right">
-                                    <t t-foreach="banners" t-as="banner">
-                                        <t t-call="khmerrealty.ads_banner_block"/>
-                                    </t>
+                                    <div class="inner_wrapper">
+                                        <t t-foreach="banners" t-as="banner">
+                                            <t t-call="khmerrealty.ads_banner_block"/>
+                                        </t>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -1629,9 +1631,12 @@
                                 </div>
                             </div>
                             <div class="col-md-3 mt-5 mb-5 banner_right">
-                                <t t-foreach="banners" t-as="banner">
-                                    <t t-call="khmerrealty.ads_banner_block"/>
-                                </t>
+                                <div class="inner_wrapper">
+                                    <t t-foreach="banners" t-as="banner">
+                                        <t t-call="khmerrealty.ads_banner_block"/>
+                                    </t>
+                                </div>
+
                             </div>
                         </div>
                     </div>

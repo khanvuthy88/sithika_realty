@@ -227,6 +227,7 @@ class Property(models.Model):
         res['default_opengraph']['og:description'] = res['default_twitter']['twitter:description'] = self.short_description
         res['default_opengraph']['og:type'] = 'article'
         res['default_opengraph']['article:published_time'] = self.create_date
+        res['default_opengraph']['fb:page_id'] = '290178345404898'
         res['default_opengraph']['article:modified_time'] = self.write_date
         res['default_opengraph']['article:tag'] = self.feature.mapped('name')
         res['default_opengraph']['og:title'] = res['default_twitter']['twitter:title'] = self.name
@@ -318,6 +319,7 @@ class Project(models.Model):
         res['default_opengraph']['article:published_time'] = self.create_date
         res['default_opengraph']['article:modified_time'] = self.write_date
         res['default_opengraph']['article:tag'] = self.feature.mapped('name')
+        res['default_opengraph']['fb:page_id'] = '290178345404898'
         res['default_opengraph']['og:title'] = res['default_twitter']['twitter:title'] = self.name
         res['default_opengraph']['og:image'] = res['default_twitter']['twitter:image'] = self.env['website'].image_url(self, 'feature_image')
         res['default_meta_description'] = self.short_description
@@ -370,6 +372,7 @@ class BlogPost(models.Model):
         res['default_opengraph']['og:type'] = 'article'
         res['default_opengraph']['article:published_time'] = self.post_date
         res['default_opengraph']['article:modified_time'] = self.write_date
+        res['default_opengraph']['fb:page_id'] = '290178345404898'
         res['default_opengraph']['article:tag'] = self.tag_ids.mapped('name')
         res['default_opengraph']['og:image'] = res['default_twitter']['twitter:image'] = self.env['website'].image_url(self, 'feature_image')
         res['default_opengraph']['og:title'] = res['default_twitter']['twitter:title'] = self.name
