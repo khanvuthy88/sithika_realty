@@ -816,8 +816,8 @@
                                 <div class="news_event_tap_wrraper">
                                     <h2 class="pull-left">News and Events</h2>
                                     <ul class="news_events_tap_title pull-right">
-                                        <li data-target="news_block" class="news btn btn-primary">News</li>
-                                        <li data-target="events_block" class="events">Events</li>
+                                        <li data-link="blog/news" data-target="news_block" class="news btn btn-primary">News</li>
+                                        <li data-link="blog/events" data-target="events_block" class="events">Events</li>
                                     </ul>
                                 </div>
                                 <div class="news_events_home_wrapper">
@@ -863,6 +863,9 @@
                                         </article>
                                         </div>
                                     </div>
+                                </div>
+                                <div id="news_event_read_more" class="read_more mt-2 mb-2 text-center">
+                                    <a class="btn btn-primary" href="blog/news">Read More</a>
                                 </div>
                             </div>
                         </div>
@@ -925,6 +928,9 @@
                                         </t>
                                     </div>
                                 </div>
+                                <div class="col-12 mt-3 mb-3 text-center">
+                                    <a href="project-listing/" class="btn btn-primary" title="Read More">Read More</a>
+                                </div>
                             </div>
                         </div>
                     </section>
@@ -935,8 +941,8 @@
                                     <div class="popular_property_title_tab">
                                         <h2 id="propety_title_tab" class="font-bold">Popular properties</h2>
                                         <ul class="property_tab_label">
-                                            <li id="property_buy_home" class="btn btn-primary" data-target="property_buy_content">Buy</li>
-                                            <li id="property_rent_home" data-target="property_rent_content">Rent</li>
+                                            <li data-link="property/buy" id="property_buy_home" class="btn btn-primary" data-target="property_buy_content">Buy</li>
+                                            <li data-link="property/rent" id="property_rent_home" data-target="property_rent_content">Rent</li>
                                         </ul>
                                     </div>
                                 </div>
@@ -960,6 +966,11 @@
                                                 <t t-call="khmerrealty.article_horizontal_tempalte"/>
                                             </t>
                                         </div>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div id="property_buy_rent_homepage" class="text-center mt-3 mb-3">
+                                        <a title="Property" href="property/buy" class="btn btn-primary">Read More</a>
                                     </div>
                                 </div>
                             </div>

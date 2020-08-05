@@ -40,6 +40,14 @@ a{
 .btn-primary{
     background-color: $primary-color;
     border-radius: 0;
+    &:hover{
+        background-color: darken($primary-color, 10%);
+        border-color: darken($primary-color, 10%);
+    }
+    &:active{
+        background-color: darken($primary-color, 10%);
+        border-color: darken($primary-color, 10%);
+    }
 }
 .hidden-xs{
     display: none;
@@ -1833,4 +1841,7 @@ footer{
             color: #ffffff !important;
         }
     }
+}
+.langs_app_tel{
+    float: right;
 }

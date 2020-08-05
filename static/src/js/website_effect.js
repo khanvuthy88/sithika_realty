@@ -10,7 +10,7 @@ odoo.define('khmerrealty.website_effect', function (require) {
             'click ul.form_search_label li': '_onClickSearchLabel',
             'click #o_website_realtysearch ul.search_label li': '_onClickSearchLabelPropertyListing',
             'click ul.news_events_tap_title li': '_onClickNewsEventLabel',
-            'click ul.property_tab_label li': '_onClickNewsEventLabel',
+            'click ul.property_tab_label li': '_onClickPropertyLabel',
             'click ul._o_agency_tab_label li': '_onClickAgencyTabLabel'
         },
 
@@ -19,6 +19,25 @@ odoo.define('khmerrealty.website_effect', function (require) {
          */
         start: function () {
             $('.property_rent_content').hide();
+            $(".owl-carousel").owlCarousel({
+                margin:10,
+                responsiveClass:true,
+                responsive:{
+                    0:{
+                        items:1,
+                        nav:true
+                    },
+                    600:{
+                        items:3,
+                        nav:false
+                    },
+                    1000:{
+                        items:5,
+                        nav:true,
+                        loop:false
+                    }
+                }
+            });
             return this._super.apply(this, arguments);
         },
 
@@ -33,6 +52,14 @@ odoo.define('khmerrealty.website_effect', function (require) {
             evt.preventDefault();
             $(evt.currentTarget).addClass('btn btn-primary').siblings().removeClass('btn btn-primary');
             $('.'+evt.currentTarget.dataset.target).show('fast','swing').siblings().hide();
+            $('#news_event_read_more a').attr('href', evt.currentTarget.dataset.link)
+        },
+
+        _onClickPropertyLabel: function(evt){
+            evt.preventDefault();
+            $(evt.currentTarget).addClass('btn btn-primary').siblings().removeClass('btn btn-primary');
+            $('.'+evt.currentTarget.dataset.target).show('fast','swing').siblings().hide();
+            $('#property_buy_rent_homepage a').attr('href', evt.currentTarget.dataset.link)
         },
 
         _onClickSearchLabelPropertyListing: function(evt){
