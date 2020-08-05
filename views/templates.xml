@@ -1127,8 +1127,9 @@
                 </form>
             </div>
         </template>
-        <template id="single_property" name="Single property">
+        <template id="single_property">
             <t t-call="khmerrealty.index">
+                <t t-set="head" t-if="property"/>
                 <section id="o_wproperty_search_form">
                     <div class="oe_structure" id="single_property_search">
                         <div class="container">

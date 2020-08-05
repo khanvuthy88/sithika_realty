@@ -60,6 +60,7 @@ class WebsiteBlog(WebsiteBlog):
         advertising_images = request.env["khmerrealty.advertising"].search([('show_in', '=', 'blog_post')],
                                                                            limit=3)
         return http.request.render('khmerrealty.blog_post_single_article', {
+            'main_object': article,
             'article': article,
             'advertising_images': advertising_images,
         })
@@ -176,7 +177,7 @@ class Khmerrealty(http.Controller):
         })
 
     @http.route('/property/<model("khmerrealty.type"):property_type>/<model("khmerrealty.property"):record>',
-                auth='public', website=True)
+                auth='public', website=True, type='http')
     def single_property(self, record, **kw):
         property_root_url = QueryURL('/property-listing')
         property_type_url = ''
@@ -185,8 +186,9 @@ class Khmerrealty(http.Controller):
             property_type_url = '/property/buy'
         elif record.property_category == 'rent':
             property_type_url = '/property/rent'
-        return http.request.render('khmerrealty.single_property', {
+        return request.render('khmerrealty.single_property', {
             'property': record,
+            'main_object': record,
             'banners': http.request.env['khmerrealty.advertising'].search([('show_in', '=', 'single_property')],
                                                                           limit=3),
             'related_property': http.request.env['khmerrealty.property'].search([
@@ -264,6 +266,7 @@ class Khmerrealty(http.Controller):
             ('project_city', '=', project_id.project_city.id),
             ('id', '!=', project_id.id)], limit=4)
         return http.request.render('khmerrealty.project_single_page', {
+            'main_object': project_id,
             'project': project_id,
             'related_project': related_project,
             'banners': http.request.env['khmerrealty.advertising'].search([('show_in', '=', 'single_property')])

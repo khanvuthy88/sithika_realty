@@ -149,6 +149,12 @@ class Property(models.Model):
     short_description = fields.Text(compute="_compute_short_description")
     property_address = fields.Char(compute="_compute_property_address")
     readable_id = fields.Char(compute="_compute_property_id")
+    feature_image_src = fields.Char(compute="_compute_feature_image_src")
+
+    def _compute_feature_image_src(self):
+        for record in self:
+            image_url = '/web/image/%s' + record.feature_image.id
+            record.feature_image_src = image_url
 
     def _compute_property_id(self):
         for record in self:
@@ -164,24 +170,6 @@ class Property(models.Model):
         for record in self:
             content = html2plaintext(record.description).replace('\n', ' ')
             record.short_description = content[:200] + '...'
-
-    def _default_website_meta(self):
-        res = super(Property, self)._default_website_meta()
-        print(res)
-        res['default_opengraph']['og:description'] = res['default_twitter']['twitter:description'] = self.description
-        res['default_opengraph']['og:type'] = 'article'
-        res['default_opengraph']['article:published_time'] = self.create_date
-        res['default_opengraph']['article:modified_time'] = self.write_date
-        res['default_opengraph']['og:title'] = res['default_twitter']['twitter:title'] = self.name
-        res['default_opengraph']['og:image'] = res['default_twitter']['twitter:image'] = self.feature_image
-        res['default_meta_description'] = self.description
-        print(res)
-        return res
-
-    def _compute_website_url(self):
-        super(Property, self)._compute_website_url()
-        for record in self:
-            record.website_url = "/property/%s/%s" % (slug(record.property_type), slug(record))
 
     @api.model
     def create(self, val):
@@ -227,6 +215,24 @@ class Property(models.Model):
                 ]
             }
         }
+
+    def _compute_website_url(self):
+        super(Property, self)._compute_website_url()
+        for record in self:
+            print(record.website_id)
+            record.website_url = "/property/%s/%s" % (slug(record.property_type), slug(record))
+
+    def _default_website_meta(self):
+        res = super(Property, self)._default_website_meta()
+        res['default_opengraph']['og:description'] = res['default_twitter']['twitter:description'] = self.short_description
+        res['default_opengraph']['og:type'] = 'article'
+        res['default_opengraph']['article:published_time'] = self.create_date
+        res['default_opengraph']['article:modified_time'] = self.write_date
+        res['default_opengraph']['article:tag'] = self.feature.mapped('name')
+        res['default_opengraph']['og:title'] = res['default_twitter']['twitter:title'] = self.name
+        res['default_opengraph']['og:image'] = res['default_twitter']['twitter:image'] = self.env['website'].image_url(self, 'feature_image')
+        res['default_meta_description'] = self.short_description
+        return res
 
     def active_property_domain(self):
         return [('active', '=', True)]
@@ -279,6 +285,13 @@ class Project(models.Model):
     display_price = fields.Boolean(default=True)
     short_description = fields.Text(compute="_compute_short_description")
     readable_id = fields.Char(compute="_compute_readable_id")
+    feature_image_src = fields.Char(compute="_compute_feature_image_src")
+
+
+    def _compute_feature_image_src(self):
+        for record in self:
+            image_url = '/web/image/%s' + record.feature_image.id
+            record.feature_image_src = image_url
 
     def _compute_readable_id(self):
         for record in self:
@@ -297,6 +310,18 @@ class Project(models.Model):
     def _compute_image_128(self):
         for record in self:
             record.image_128 = record.feature_image
+
+    def _default_website_meta(self):
+        res = super(Project, self)._default_website_meta()
+        res['default_opengraph']['og:description'] = res['default_twitter']['twitter:description'] = self.short_description
+        res['default_opengraph']['og:type'] = 'article'
+        res['default_opengraph']['article:published_time'] = self.create_date
+        res['default_opengraph']['article:modified_time'] = self.write_date
+        res['default_opengraph']['article:tag'] = self.feature.mapped('name')
+        res['default_opengraph']['og:title'] = res['default_twitter']['twitter:title'] = self.name
+        res['default_opengraph']['og:image'] = res['default_twitter']['twitter:image'] = self.env['website'].image_url(self, 'feature_image')
+        res['default_meta_description'] = self.short_description
+        return res
 
     @api.onchange('property_city')
     def onchange_project_city(self):
@@ -338,6 +363,18 @@ class BlogPost(models.Model):
         for record in self:
             content = html2plaintext(record.subtitle).replace('\n', ' ')
             record.short_description = content[:70] + '...'
+
+    def _default_website_meta(self):
+        res = super(BlogPost, self)._default_website_meta()
+        res['default_opengraph']['og:description'] = res['default_twitter']['twitter:description'] = self.subtitle
+        res['default_opengraph']['og:type'] = 'article'
+        res['default_opengraph']['article:published_time'] = self.post_date
+        res['default_opengraph']['article:modified_time'] = self.write_date
+        res['default_opengraph']['article:tag'] = self.tag_ids.mapped('name')
+        res['default_opengraph']['og:image'] = res['default_twitter']['twitter:image'] = self.env['website'].image_url(self, 'feature_image')
+        res['default_opengraph']['og:title'] = res['default_twitter']['twitter:title'] = self.name
+        res['default_meta_description'] = self.subtitle
+        return res
 
 
 class ResPartner(models.Model):

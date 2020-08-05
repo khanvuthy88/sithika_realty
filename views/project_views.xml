@@ -60,6 +60,13 @@
                             <page string="Image Gallery">
                                 <field name="image_gallery" context="{'default_public': True}" class="oe_inline" widget="many2many_binary"/>
                             </page>
+                            <page name="seo" string="SEO">
+                                <group name="default_opengraph">
+                                    <field name="website_meta_title" string="Meta Title"/>
+                                    <field name="website_meta_description" string="Meta Description"/>
+                                    <field name="website_meta_keywords" string="Meta Keywords" help="Separate every keyword with a comma"/>
+                                </group>
+                            </page>
                         </notebook>
                     </sheet>
                     <div class="oe_chatter">
