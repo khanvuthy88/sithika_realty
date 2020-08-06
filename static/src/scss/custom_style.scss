@@ -1850,6 +1850,60 @@ footer{
 }
 .langs_app_tel{
     float: right;
+    .langs{
+        .dropup{
+            &:active{
+                border: 0px !important;
+            }
+            button{
+                border: 0px;
+                background: none !important;
+                &:active{
+                    border: 0px !important;
+                }
+            }
+            .dropdown-menu{
+                min-width: 8rem;
+                a{
+                    &.dropdown-item{
+                        padding: 0.25rem 0px .25rem 1rem;
+                    }
+                    &.en_US,
+                    &.km_KH,
+                    &.zh_CN{
+                        &:before{
+                            content: '';                            
+                            width: 20px;
+                            height: 16px;
+                            display: block;
+                            background-repeat: no-repeat;
+                            background-size: 20px 16px;
+                            margin-right: 7px;
+                            margin-top: auto;
+                            margin-bottom: auto;
+                            margin-top: 2px;
+                        }
+                    }
+                    &.en_US{
+                        &:before{
+                            background: url('/khmerrealty/static/description/icons/gb.svg');
+                        }
+                        
+                    }
+                    &.km_KH{
+                        &:before{
+                            background: url('/khmerrealty/static/description/icons/kh (1).svg');
+                        }
+                    }
+                    &.zh_CN{
+                        &:before{
+                            background: url('/khmerrealty/static/description/icons/cn.svg');
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 .navbar ul.nav > li.divider{
     border: 0;
