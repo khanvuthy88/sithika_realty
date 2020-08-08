@@ -1168,9 +1168,11 @@
                                                 <h1 id="property_name" t-esc="property.name"/>
                                             </div>
                                             <div class="col-md-3">
-                                                <div class="o_wblog_social_links d-flex flex-wrap mx-n1 float-right">
+                                                <div class="o_wblog_social_links d-flex flex-wrap mx-n1">
                                                     <t t-set="classes">bg-100 border mx-1 mb-2 rounded-circle d-flex align-items-center justify-content-center text-decoration-none</t>
                                                     <a href="#" aria-label="Facebook" title="Share on Facebook" t-attf-class="o_facebook #{classes}"><i class="fa fa-facebook-square text-facebook"/></a>
+                                                    <a href="#" aria-label="Twitter" title="Share on Twitter" t-attf-class="o_twitter #{classes}"><i class="fa fa-twitter text-twitter" aria-label="Twitter" title="Twitter"/></a>
+                                                    <a href="#" aria-label="LinkedIn" title="Share on LinkedIn" t-attf-class="o_linkedin #{classes}"><i class="fa fa-linkedin text-linkedin" aria-label="LinkedIn" title="LinkedIn"/></a>
                                                 </div>
                                             </div>
                                         </div>

@@ -391,6 +391,14 @@ class ResPartner(models.Model):
     district_vt = fields.Many2one('khmerrealty.property.location', string='District')
     commune_vt = fields.Many2one('khmerrealty.property.location', string='Commune')
     agent_website_url = fields.Char(compute="_compute_agent_website_url")
+    phone_number_website = fields.Char(compute='_compute_phone_number_with')
+
+    def _compute_phone_number_with(self):
+        for record in self:
+            tel_n = 'tel:+85589602525'
+            if record.phone:
+                tel_n = 'tel:' + record.phone if record.phone.startswith('+855') else 'tel:+855' + record.phone
+            record.phone_number_website = tel_n
 
     def _compute_agent_website_url(self):
         for partner in self:

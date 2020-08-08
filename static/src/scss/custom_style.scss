@@ -136,7 +136,7 @@ a{
 #top{
     nav{
         &.navbar-light{
-            background-color: rgba(0, 0, 0, 0.3) !important;
+            background-color: rgba(23, 23, 23, 0.16) !important;
         }
     }
 }
@@ -176,11 +176,12 @@ a{
     }
     #search_form{
         z-index: 123;
-        background-color: rgba(0, 0, 0, 0.6);
+        background-color: #eeeeee;
         margin: 0px auto;
         width: 100%;
         display: block;
         @include media-breakpoint-up(md){
+            background-color: rgba(0, 0, 0, 0.6);
             border-radius: 5px;
             top: 50%;
             left: 50%;
@@ -204,16 +205,20 @@ a{
                         list-style: none;
                         padding-bottom: 10px;
                         margin-right: 15px;
-                        color: #ffffff;
+                        color: rgb(51,51,51);
                         cursor: pointer;
+                        @include media-breakpoint-up(md){
+                            color: rgb(255,255,255);
+                        }
                         &.active{
                             background-image: url("/khmerrealty/static/description/active.png");
                             background-position: center bottom;
                             background-repeat: no-repeat;
-                            color: rgba(255,255,255,1);
+                            color: rgb(58,134,203);
+                            font-weight: bold;
                             background-size: auto 7px;
                             margin-bottom: -1px;
-                            z-index: 1;
+                            z-index: 1;                            
                         }
                     }
                 }
@@ -231,13 +236,21 @@ a{
                         border-radius: 0;
                         height: auto;
                         padding: 10px;
-                        @include media-breakpoint-up(md){
-                            border: 0;
+                        border: 0;
+                        @include media-breakpoint-up(md){                            
                             padding: 15px 20px;
                         }
                     }
+                    #search_text{
+                        border-top: 1px solid rgb(238,238,238);
+                    }
                     #search_location{
                         border-bottom: 0px;
+                    }
+                    button{
+                        @include media-breakpoint-up(md){
+                            margin-left: -1px;
+                        }
                     }
 
                 }
@@ -953,6 +966,9 @@ footer{
                                 grid-template-columns: repeat(2, 1fr);
                                 column-gap: 15px;
                                 width: 100%;
+                                a{
+                                    width: 100%;
+                                }
                                 button{
                                     width: 100%;
                                 }
@@ -1857,6 +1873,8 @@ footer{
             }
             button{
                 border: 0px;
+                padding: 0px;
+                margin: 0px;
                 background: none !important;
                 &:active{
                     border: 0px !important;
@@ -1908,4 +1926,25 @@ footer{
 }
 .navbar ul.nav > li.divider{
     border: 0;
+}
+.o_wblog_social_links{
+    text-align: left;
+    float: left;
+    @include media-breakpoint-up(md){
+        text-align: right;
+        float: right;
+    }
+    a{
+        &.o_facebook,
+        &.o_twitter,
+        &.o_linkedin{
+            width: 3rem;
+            height: 3rem;
+        }
+    }
+}
+p{
+    &.empty{
+        display: none;
+    }
 }

@@ -241,10 +241,15 @@ odoo.define('khmerrealty.website_effect', function (require) {
             evt.preventDefault();
             var url = '';
             var $element = $(evt.currentTarget);
-            var blogPostTitle = encodeURIComponent($('#property_name span.name').html() || '');
+
+            var blogPostTitle = encodeURIComponent($('#property_name').html() || '');
             var articleURL = encodeURIComponent(window.location.href);
-            if ($element.hasClass('o_facebook')) {
+            if ($element.hasClass('o_twitter')) {
+                url = 'https://twitter.com/intent/tweet?tw_p=tweetbutton&text=Amazing blog article : ' + blogPostTitle + "! " + articleURL;
+            } else if ($element.hasClass('o_facebook')) {
                 url = 'https://www.facebook.com/sharer/sharer.php?u=' + articleURL;
+            } else if ($element.hasClass('o_linkedin')) {
+                url = 'https://www.linkedin.com/shareArticle?mini=true&url=' + articleURL + '&title=' + blogPostTitle;
             }
             window.open(url, '', 'menubar=no, width=500, height=400');
         },

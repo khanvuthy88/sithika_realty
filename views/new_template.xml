@@ -207,8 +207,8 @@
                     <t t-call="khmerrealty.article_agency_summary"/>
                     <t t-call="khmerrealty.article_location_template"/>
                     <div class="actions_call_email">
-                        <button class="btn btn-primary"><a href="">Call</a></button>
-                        <button class="btn btn-secondary"><a href="#">Chat</a></button>
+                        <a class="btn btn-primary" t-att-href="article.phone_number_website">Call</a>
+                        <a class="btn btn-secondary" t-att-href="request.httprequest.url_root+'web/'">Chat</a>
                     </div>
 
                 </div>
@@ -266,8 +266,16 @@
                                 <span class="currency">Mon</span>
                             </div>
                             <div class="actions">
-                                <div><button class="btn btn-primary">Call</button></div>
-                                <div><button class="btn btn-secondary">Chat</button></div>
+                                <div>
+                                    <a t-att-title="article.property_author.name" t-if="article.property_author.phone_number_website" t-att-href="article.property_author.phone_number_website" class="btn btn-primary">
+                                        Call
+                                    </a>
+                                </div>
+                                <div>
+                                    <a t-att-title="article.property_author.name" t-att-href="request.httprequest.url_root+'web/'" class="btn btn-secondary">
+                                        Chat
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -303,8 +311,16 @@
                                 <span class="currency">Mon</span>
                             </div>
                             <div class="actions">
-                                <div><button class="btn btn-primary">Call</button></div>
-                                <div><button class="btn btn-secondary">Chat</button></div>
+                                <div>
+                                    <a t-att-title="article.property_author.name" t-if="article.property_author.phone_number_website" t-att-href="article.property_author.phone" class="btn btn-primary">
+                                        Call
+                                    </a>
+                                </div>
+                                <div>
+                                    <a t-att-title="article.property_author.name" t-att-href="request.httprequest.url_root+'web/'" class="btn btn-secondary">
+                                        Chat
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -477,5 +493,18 @@
                 <div class="oe_structure"/>
             </t>
         </template>
+
+        <template id="vt_language_selector" inherit_id="website.language_selector">
+            <xpath expr="//ul[hasclass('js_language_selector')]" position="replace">
+                <p class="empty">ee</p>
+            </xpath>
+        </template>
+
+        <template id="web_login" inherit_id="web.login">
+            <xpath expr="//input[@id='login']" position="attributes">
+                <attribute name="type">email</attribute>
+            </xpath>
+        </template>
+
     </data>
 </odoo>
