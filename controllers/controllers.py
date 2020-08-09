@@ -81,43 +81,6 @@ class Khmerrealty(http.Controller):
         ])
         return properties
 
-    @http.route('/services/', auth='public', website=True)
-    def index(self, **kw):
-        has_property = False
-        property_obj = request.env['khmerrealty.property']
-        location_obj = request.env['khmerrealty.property.location'].search([('parent_id', '=', False)])
-        slide_obj = request.env['khmerrealty.slide']
-        blog_news_obj = request.env['blog.post']
-        top_three_news = blog_news_obj.search([('blog_id', '=', 2)], limit=3, order='id desc')
-        top_three_guide = blog_news_obj.search([('blog_id', '=', 1)], limit=3, order='id desc')
-        popular_property_rent = property_obj.search([('property_category', '=', 'rent')],
-                                                    limit=4, order='id desc')
-        popular_property_buy = property_obj.search([('property_category', '=', 'buy')], limit=4,
-                                                   order='id desc')
-        feature_agency_home = request.env['res.partner'].search([('feature_agency', '=', True)], limit=4)
-        slides = slide_obj.search([
-            ('active', '=', True),
-            ('show_in', '=', 'top_slide')], order='id desc')
-        next_slides = slide_obj.search([
-            ('active', '=', True),
-            ('show_in', '=', 'home_below_top')], order='id desc')
-        if popular_property_buy or popular_property_rent:
-            has_property = True
-        return http.request.render('khmerrealty.home_page', {
-            'has_property': has_property,
-            'location_obj': location_obj,
-            'popular_property_buy': popular_property_buy,
-            'popular_property_rent': popular_property_rent,
-            'feature_agency_home': feature_agency_home,
-            'top_locations': http.request.env['khmerrealty.property.location'].search([('feature_location', '=', True)],
-                                                                                      limit=5, order='sequence'),
-            'feature_project_home': http.request.env['khmerrealty.project'].search([], limit=4, order='id desc'),
-            'top_three_news': top_three_news,
-            'top_three_guide': top_three_guide,
-            'slide_show': slides,
-            'next_slides': next_slides,
-        })
-
     @http.route(['/blog/news', '/blog/news/page/<int:page>'], auth='public', website=True)
     def blog_news(self, page=1, **kw):
         news_obj = request.env['blog.post']

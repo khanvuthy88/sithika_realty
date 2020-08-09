@@ -1458,8 +1458,7 @@
                 </div>
             </div>
         </template>
-        <template id="project_listing_page">
-            <title>Project Listing</title>
+        <template id="project_listing_page" name="Project Listing">
             <t t-call="khmerrealty.index">
                 <section id="project_listing_page" class="mt-4 mb-4">
                     <div class="container">
@@ -1768,28 +1767,5 @@
                 </div>
             </div>
         </template>
-        <record id="khmer_realty_property_list_page" model="website.page">
-            <field name="name">Property List Page</field>
-            <field name="website_published">True</field>
-            <field name="url">/property-listing</field>
-            <field name="view_id" ref="property_listing"/>
-        </record>
-        <record id="khmer_realty_property_list_menu" model="website.menu">
-            <field name="name">Property</field>
-            <field name="page_id" ref="khmer_realty_property_list_page"/>
-            <field name="parent_id" ref="website.main_menu"/>
-            <field name="sequence" type="int">99</field>
-        </record>
-        <record id="khmer_realty_home_page" model="website.page">
-            <field name="name">Sithika Realty</field>
-            <field name="website_published">True</field>
-            <field name="url">/services</field>
-            <field name="view_id" ref="home_page"/>
-        </record>
-        <record id="khmer_realty_home_page_link" model="website.menu">
-            <field name="name">K Home</field>
-            <field name="page_id" ref="khmer_realty_home_page"/>
-            <field name="parent_id" ref="website.main_menu" />
-            <field name="sequence" type="int">99</field>
-        </record>    </data>
+    </data>
 </odoo>
