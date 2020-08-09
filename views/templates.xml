@@ -907,7 +907,7 @@
                 </div>
             </div>
         </template>
-        <template id="home_page" name="Sithika Realty">
+        <template id="home_page" name="Cambodia property">
             <t t-call="website.layout">
                 <xpath expr="//body" position="attributes">
                     <attribute name="class" separator=" " add="o_wrealty_homepage"/>
