@@ -354,7 +354,7 @@
                                         </li>
                                         <li class="tiktok">
                                             <a t-attf-href="https://vt.tiktok.com/SUAdr7/" class="btn btn-sm btn-link">
-                                                <img t-attf-src="/khmerrealty/static/description/icons/tiktok-white.png"/>
+                                                <img t-attf-src="/khmerrealty/static/description/icons/tiktok-white.svg"/>
                                             </a>
                                         </li>
                                     </ul>
@@ -598,7 +598,7 @@
                                     <a t-if="website.social_youtube" t-att-href="website.social_youtube" class="btn btn-sm btn-link"><i class="fa fa-1x fa-youtube-play img_circle"/></a>
                                     <a t-if="website.social_github" t-att-href="website.social_github" class="btn btn-sm btn-link"><i class="fa fa-1x fa-github img_circle"/></a>
                                     <a t-if="website.social_instagram" t-att-href="website.social_instagram" class="btn btn-sm btn-link"><i class="fa fa-1x fa-instagram img_circle"/></a>
-                                    <a href="https://vt.tiktok.com/SUAdr7/"><img t-attf-style="width:30px; height: auto;" t-attf-src="/khmerrealty/static/description/icons/ticktok.png"/></a>
+                                    <a href="https://vt.tiktok.com/SUAdr7/"><img t-attf-style="width:30px; height: auto;" t-attf-src="/khmerrealty/static/description/icons/tiktok.svg"/></a>
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -907,7 +907,7 @@
                 </div>
             </div>
         </template>
-        <template id="home_page" name="Sithika Realty">
+        <template id="home_page" name="Cambodia Properties">
             <t t-call="website.layout">
                 <xpath expr="//body" position="attributes">
                     <attribute name="class" separator=" " add="o_wrealty_homepage"/>
@@ -1159,13 +1159,13 @@
                 </section>
                 <section id="o_wproperty_detail">
                     <div class="oe_structure">
-                        <div id="single_property" class="mt-3 mb-5">
+                        <div id="single_property" class="mt-3 mb-5" vocab="http://schema.org/" typeof="Article">
                             <div class="container">
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="row">
                                             <div class="col-md-9">
-                                                <h1 id="property_name" t-esc="property.name"/>
+                                                <h1 property="name" id="property_name" t-esc="property.name"/>
                                             </div>
                                             <div class="col-md-3">
                                                 <div class="o_wblog_social_links d-flex flex-wrap mx-n1">
@@ -1176,7 +1176,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="property_detail">
+                                        <div class="property_detail" property="description">
                                             <t t-call="khmerrealty.property_detail_single"/>
                                             <t t-set="article" t-value="property.property_author"/>
                                             <t t-set="city" t-value="article.city_vt.name" t-if="article.city_vt"/>
@@ -1184,6 +1184,9 @@
                                             <t t-set="city_sub_2" t-value="article.commune_vt.name" t-if="article.commune_vt"/>
                                             <t t-call="khmerrealty.website_realty_single_agency_template"/>
                                         </div>
+                                    </div>
+                                    <div class="mt-3 mb-3 col-12">
+                                        <h2 class="font-bold">Related Properties</h2>
                                     </div>
                                     <div class="col-md-12">
                                         <div id="related_property">
@@ -1206,7 +1209,7 @@
                 </section>
             </t>
         </template>
-        <template id="property_listing">
+        <template id="property_listing" name="Property listing">
             <t t-call="khmerrealty.index">
                 <section id="search_form_not_home">
                     <div class="container">
@@ -1263,20 +1266,21 @@
                             <div class="col-md-12 mt-4 mb-4">
                                 <div id="property_by_author">
                                     <div class="inner_wrraper">
-                                        <div class="author_avatar_short_description">
+                                        <div vocab="http://schema.org/" typeof="Organization" class="author_avatar_short_description">
                                             <t t-set="article" t-value="author"/>
                                             <a t-att-href="article.agent_website_url" class="post-thumbnail" t-att-title="article.name">
-                                                <img t-attf-class="zoom_image" t-if="article.image_1920" t-att-src="image_data_uri(article.image_1920)" t-attf-alt="article.name"/>
-                                                <img t-attf-class="zoom_image" t-else="" t-attf-src="/khmerrealty/static/description/default_user.jpg" t-att-alt="article.name"/>
+                                                <img property="image" t-attf-class="zoom_image" t-if="article.image_1920" t-att-src="image_data_uri(article.image_1920)" t-attf-alt="article.name"/>
+                                                <img property="image" t-attf-class="zoom_image" t-else="" t-attf-src="/khmerrealty/static/description/default_user.jpg" t-att-alt="article.name"/>
                                             </a>
                                             <div class="short_description">
-                                                <a t-attf-href="/property/author/{{ slug(author) }}" t-attf-title="{{author.name}}">
-                                                    <h1 t-field="author.name"/>
+                                                <a t-att-href="article.agent_website_url" t-attf-title="{{author.name}}">
+                                                    <h1 property="name" t-field="author.name"/>
                                                 </a>
                                                 <ul class="company_tel_email">
                                                     <li t-if="author.company_name" class="company"><span t-field="author.company_name"/></li>
-                                                    <li t-if="author.phone" class="tel"><span t-field="author.phone"/></li>
-                                                    <li t-if="author.email" class="email"><span t-field="author.email"/></li>
+                                                    <li property="telephone" t-if="author.phone" class="tel"><span t-field="author.phone"/></li>
+                                                    <li property="email" t-if="author.email" class="email"><span t-field="author.email"/></li>
+                                                    <li property="address" typeof="PostalAddress" t-if="author.street" class="address"><span property="streetAddress" t-field="author.street"/></li>
                                                 </ul>
                                             </div>
                                         </div>
@@ -1455,6 +1459,7 @@
             </div>
         </template>
         <template id="project_listing_page">
+            <title>Project Listing</title>
             <t t-call="khmerrealty.index">
                 <section id="project_listing_page" class="mt-4 mb-4">
                     <div class="container">
@@ -1526,6 +1531,12 @@
                                                 <h2 class="font-weight-bold">Description</h2>
                                                 <p t-raw="article.description"/>
                                             </div>
+                                            <div class="mt-3 mb-3 o_wblog_social_links d-flex flex-wrap mx-n1">
+                                                <t t-set="classes">bg-100 border mx-1 mb-2 rounded-circle d-flex align-items-center justify-content-center text-decoration-none</t>
+                                                <a href="#" aria-label="Facebook" title="Share on Facebook" t-attf-class="o_facebook #{classes}"><i class="fa fa-facebook-square text-facebook"/></a>
+                                                <a href="#" aria-label="Twitter" title="Share on Twitter" t-attf-class="o_twitter #{classes}"><i class="fa fa-twitter text-twitter" aria-label="Twitter" title="Twitter"/></a>
+                                                <a href="#" aria-label="LinkedIn" title="Share on LinkedIn" t-attf-class="o_linkedin #{classes}"><i class="fa fa-linkedin text-linkedin" aria-label="LinkedIn" title="LinkedIn"/></a>
+                                            </div>
                                         </div>
                                         <div class="project_author_banner_adds">
                                             <div class="project_author">
@@ -1544,6 +1555,9 @@
                             </div>
                         </div>
                         <div class="row">
+                            <div class="col-12 mt-3 mb-3">
+                                <h2 class="font-bold">Related Projects</h2>
+                            </div>
                             <div class="col-md-12">
                                 <div t-if="related_project" class="row mt-4 mb-4" id="related_project">
                                     <div class="inner_wrapper col-md-12">
@@ -1637,11 +1651,13 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-3 mt-5 mb-5 banner_right">
-                                <div class="inner_wrapper">
-                                    <t t-foreach="banners" t-as="banner">
-                                        <t t-call="khmerrealty.ads_banner_block"/>
-                                    </t>
+                            <div class="col-md-3 mt-5 mb-5">
+                                <div class="banner_right">
+                                    <div class="inner_wrapper">
+                                        <t t-foreach="banners" t-as="banner">
+                                            <t t-call="khmerrealty.ads_banner_block"/>
+                                        </t>
+                                    </div>
                                 </div>
 
                             </div>
@@ -1752,28 +1768,5 @@
                 </div>
             </div>
         </template>
-        <record id="khmer_realty_property_list_page" model="website.page">
-            <field name="name">Property List Page</field>
-            <field name="website_published">True</field>
-            <field name="url">/property-listing</field>
-            <field name="view_id" ref="property_listing"/>
-        </record>
-        <record id="khmer_realty_property_list_menu" model="website.menu">
-            <field name="name">Property</field>
-            <field name="page_id" ref="khmer_realty_property_list_page"/>
-            <field name="parent_id" ref="website.main_menu"/>
-            <field name="sequence" type="int">99</field>
-        </record>
-        <record id="khmer_realty_home_page" model="website.page">
-            <field name="name">Sithika Realty</field>
-            <field name="website_published">True</field>
-            <field name="url">/services</field>
-            <field name="view_id" ref="home_page"/>
-        </record>
-        <record id="khmer_realty_home_page_link" model="website.menu">
-            <field name="name">K Home</field>
-            <field name="page_id" ref="khmer_realty_home_page"/>
-            <field name="parent_id" ref="website.main_menu" />
-            <field name="sequence" type="int">99</field>
-        </record>    </data>
+    </data>
 </odoo>

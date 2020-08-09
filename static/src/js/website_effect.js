@@ -229,7 +229,7 @@ odoo.define('khmerrealty.website_effect', function (require) {
     });
 
     publicWidget.registry.khmerrealty_share = publicWidget.Widget.extend({
-        selector: '#single_property',
+        selector: '.website_realty',
         events: {
             'click .o_facebook, .o_twitter, .o_linkedin': '_showShare',
         },

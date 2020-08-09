@@ -968,6 +968,9 @@ footer{
                                 width: 100%;
                                 a{
                                     width: 100%;
+                                    &.btn-secondary{
+                                        border-radius: 0px;
+                                    }
                                 }
                                 button{
                                     width: 100%;
@@ -1178,6 +1181,9 @@ footer{
     width: 100%;
     display: block;
     overflow: hidden;
+    .inner_wrapper{
+        display: block !important;
+    }
     @include media-breakpoint-up(md){
         display: grid;
         grid-template-columns: repeat(2, 1fr);
@@ -1576,7 +1582,7 @@ span{
         }
         @include media-breakpoint-up(xl){
             height: 160px;
-            grid-template-columns: 20% 80%;
+            grid-template-columns: 21% 79%;
         }
         a{
             display: block;
@@ -1947,4 +1953,43 @@ p{
     &.empty{
         display: none;
     }
+}
+ul.company_tel_email{
+    @extend %mp_zero;
+    li{
+        &.tel,
+        &.email,
+        &.address{
+            list-style: none;
+            span{
+                &:before{
+                    @extend %fontawesome;
+                }
+            }
+        }
+        &.tel{
+            span{
+                &:before{
+                    content: '\f095';
+                }
+            }
+        }
+        &.email{
+            span{
+                &:before{
+                    content: '\f0e0';
+                }
+            }
+        }
+        &.address{
+            span{
+                &:before{
+                    content: '\f015';
+                }
+            }
+        }
+    }
+}
+.btn-secondary{
+    border-radius: 0px;
 }

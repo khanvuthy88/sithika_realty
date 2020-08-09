@@ -392,6 +392,25 @@ class ResPartner(models.Model):
     commune_vt = fields.Many2one('khmerrealty.property.location', string='Commune')
     agent_website_url = fields.Char(compute="_compute_agent_website_url")
     phone_number_website = fields.Char(compute='_compute_phone_number_with')
+    website_short_description = fields.Text('Website Partner Short Description', translate=True, compute='_compute_short_description')
+
+    def _compute_short_description(self):
+        for record in self:
+            content = html2plaintext(record.description_website).replace('\n', ' ')
+            record.website_short_description = content[:200] + '...'
+
+
+    def _default_website_meta(self):
+        res = super(ResPartner, self)._default_website_meta()
+        res['default_opengraph']['og:description'] = res['default_twitter']['twitter:description'] = self.website_short_description
+        res['default_opengraph']['og:type'] = 'article'
+        res['default_opengraph']['article:published_time'] = self.create_date
+        res['default_opengraph']['article:modified_time'] = self.write_date
+        res['default_opengraph']['fb:app_id'] = '290178345404898'
+        res['default_opengraph']['og:title'] = res['default_twitter']['twitter:title'] = self.name
+        res['default_opengraph']['og:image'] = res['default_twitter']['twitter:image'] = self.env['website'].image_url(self, 'image_1920')
+        res['default_meta_description'] = self.website_short_description
+        return res
 
     def _compute_phone_number_with(self):
         for record in self:

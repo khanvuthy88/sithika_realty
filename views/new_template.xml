@@ -14,17 +14,17 @@
                         <div class="row">
                             <div class="col-md-12 mt-4 mb-4">
                                 <div class="agency_logo_short_description">
-                                    <div class="inner_wrapper">
+                                    <div class="inner_wrapper" vocab="http://schema.org/" typeof="Person">
                                         <figure>
-                                            <img t-att-src="image_data_uri(agency.image_512)" t-att-alt="agency.display_name"/>
+                                            <img property="image" t-att-src="image_data_uri(agency.image_512)" t-att-alt="agency.display_name"/>
                                             <figcaption><p class="s_latest_posts_post_title text-white" t-esc="agency.display_name"/></figcaption>
                                         </figure>
                                         <div class="short_description">
-                                            <h1 class="agency_name" t-esc="agency.display_name"/>
-                                            <ul class="email_tel_address">
-                                                <li class="street"><t t-esc="agency.street"/></li>
-                                                <li class="tel"><t t-esc="agency.phone"/></li>
-                                                <li class="email"><t t-esc="agency.email"/></li>
+                                            <h1 property="name" class="agency_name" t-esc="agency.display_name"/>
+                                            <ul class="email_tel_address" property="address" typeof="PostalAddress">
+                                                <li property="streetAddress" class="street"><t t-esc="agency.street"/></li>
+                                                <li property="telephone" class="tel"><t t-esc="agency.phone"/></li>
+                                                <li property="email" class="email"><t t-esc="agency.email"/></li>
                                             </ul>
                                         </div>
                                     </div>
@@ -192,7 +192,7 @@
                         <ul class="author_name_email_phone">
                             <li class="author_name" t-if="article.name">
                                 <a t-att-href="article.agent_website_url" t-att-title="article.name">
-                                    <h1 t-esc="article.name"/>
+                                    <h1 property="author" t-esc="article.name"/>
                                 </a>
                             </li>
                             <li class="author_email" t-esc="article.email" t-if="article.email"/>
@@ -312,12 +312,12 @@
                             </div>
                             <div class="actions">
                                 <div>
-                                    <a t-att-title="article.property_author.name" t-if="article.property_author.phone_number_website" t-att-href="article.property_author.phone" class="btn btn-primary">
+                                    <a t-att-title="article.project_author.name" t-if="article.project_author.phone_number_website" t-att-href="article.project_author.phone" class="btn btn-primary">
                                         Call
                                     </a>
                                 </div>
                                 <div>
-                                    <a t-att-title="article.property_author.name" t-att-href="request.httprequest.url_root+'web/'" class="btn btn-secondary">
+                                    <a t-att-title="article.project_author.name" t-att-href="request.httprequest.url_root+'web/'" class="btn btn-secondary">
                                         Chat
                                     </a>
                                 </div>
@@ -421,6 +421,12 @@
                                     <div property="description" class="entry-content">
                                         <t t-raw="article.content"/>
                                     </div>
+                                    <div class="mt-3 mb-3 o_wblog_social_links d-flex flex-wrap mx-n1">
+                                        <t t-set="classes">bg-100 border mx-1 mb-2 rounded-circle d-flex align-items-center justify-content-center text-decoration-none</t>
+                                        <a href="#" aria-label="Facebook" title="Share on Facebook" t-attf-class="o_facebook #{classes}"><i class="fa fa-facebook-square text-facebook"/></a>
+                                        <a href="#" aria-label="Twitter" title="Share on Twitter" t-attf-class="o_twitter #{classes}"><i class="fa fa-twitter text-twitter" aria-label="Twitter" title="Twitter"/></a>
+                                        <a href="#" aria-label="LinkedIn" title="Share on LinkedIn" t-attf-class="o_linkedin #{classes}"><i class="fa fa-linkedin text-linkedin" aria-label="LinkedIn" title="LinkedIn"/></a>
+                                    </div>
                                 </article>
                             </div>
                             <div class="col-md-3">
@@ -501,6 +507,12 @@
         </template>
 
         <template id="web_login" inherit_id="web.login">
+            <xpath expr="//input[@id='login']" position="attributes">
+                <attribute name="type">email</attribute>
+            </xpath>
+        </template>
+
+        <template id="signup_form" inherit_id="auth_signup.fields">
             <xpath expr="//input[@id='login']" position="attributes">
                 <attribute name="type">email</attribute>
             </xpath>

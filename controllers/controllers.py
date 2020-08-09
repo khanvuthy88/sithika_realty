@@ -295,6 +295,7 @@ class Khmerrealty(http.Controller):
         projects = request.env['khmerrealty.project'].search([('project_author.parent_id', '=', agency_id.id)])
         return http.request.render('khmerrealty.page-single-agency', {
             'agency': agency_id,
+            'main_object': agency_id,
             'properties': properties,
             'agents': agents,
             'projects': projects,
@@ -314,6 +315,7 @@ class Khmerrealty(http.Controller):
             'properties': properties.search([('property_author', '=', author_id.id)], limit=self._property_per_page,
                                             offset=pager['offset']),
             'author': author_id,
+            'main_object': author_id,
             'pager': pager,
         })
 
