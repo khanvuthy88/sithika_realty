@@ -312,7 +312,7 @@
                             </div>
                             <div class="actions">
                                 <div>
-                                    <a t-att-title="article.project_author.name" t-if="article.project_author.phone_number_website" t-att-href="article.project_author.phone" class="btn btn-primary">
+                                    <a t-att-title="article.project_author.name" t-if="article.project_author.phone_number_website" t-att-href="article.project_author.phone_number_website" class="btn btn-primary">
                                         Call
                                     </a>
                                 </div>

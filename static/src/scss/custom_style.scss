@@ -1101,6 +1101,9 @@ footer{
                                 button{
                                     width: 100%;
                                 }
+                                a{
+                                    width: 100%;
+                                }
                             }
                         }
                     }
@@ -1992,4 +1995,21 @@ ul.company_tel_email{
 }
 .btn-secondary{
     border-radius: 0px;
+}
+a{
+    &.page-link{
+        &:hover{
+            color: darken($primary-color, 20%);
+        }
+    }
+}
+.page-link{
+    color: $primary-color;
+    &:hover{
+        color: darken($primary-color, 20%);
+    }
+}
+.page-item.active .page-link{
+    background-color: $primary-color;
+    border-color: $primary-color;
 }
