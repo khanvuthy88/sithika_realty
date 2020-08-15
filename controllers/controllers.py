@@ -228,9 +228,11 @@ class Khmerrealty(http.Controller):
         related_project = http.request.env['khmerrealty.project'].search([
             ('project_city', '=', project_id.project_city.id),
             ('id', '!=', project_id.id)], limit=4)
+        locations = request.env['khmerrealty.property.location'].search([('parent_id', '=', False)])
         return http.request.render('khmerrealty.project_single_page', {
             'main_object': project_id,
             'project': project_id,
+            'locations': locations,
             'related_project': related_project,
             'banners': http.request.env['khmerrealty.advertising'].search([('show_in', '=', 'single_property')])
         })
@@ -432,4 +434,44 @@ class Khmerrealty(http.Controller):
             'property_location': locations,
             'pager': pager,
             'property_count': record_count,
+        })
+
+    @http.route(['/project/search/',
+                 '/project/page/<int:page>'], auth='public', website=True)
+    def search_project(self, page=1, ppg=False, **kw):
+        print(kw)
+        search_table = request.env['khmerrealty.project']
+        domain = []
+        url = '/search'
+        if ppg:
+            try:
+                ppg = int(ppg)
+                kw['ppg'] = ppg
+            except ValueError:
+                ppg = False
+        search_value = kw.get('search_text').strip()
+        d_location = ('project_city', '=', int(kw.get('search_location')))
+        domain.append(d_location)
+        if search_value:
+            kw['search_value'] = search_value
+            for record in search_value.split(" "):
+                domain.append('|')
+                sub_domain = ('name', 'ilike', record)
+                domain.append(sub_domain)
+                des_s = ('description', 'ilike', record)
+                domain.append(des_s)
+        record_count = search_table.search_count(domain)
+        pager = request.website.pager(url=url, total=record_count, page=page, step=self._property_search_page,
+                                      scope=self._pager_step_ppg,
+                                      url_args=kw)
+        records = search_table.search(domain, limit=self._property_search_page, offset=pager['offset'])
+        locations = request.env['khmerrealty.property.location'].search([('parent_id', '=', False)])
+
+        return http.request.render('khmerrealty.project_listing_page', {
+            'banners': http.request.env['khmerrealty.advertising'].search([('show_in', '=', 'property')], limit=3),
+            'projects': records,
+            'pager': pager,
+            'search_text': kw.get('search_text'),
+            'search_location': int(kw.get('search_location')),
+            'locations': locations,
         })

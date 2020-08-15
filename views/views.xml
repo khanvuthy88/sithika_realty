@@ -53,10 +53,12 @@
                                     <group>
                                         <field name="property_author"/>
                                         <field name="property_type"/>
+                                        <field name="plan_type"/>
                                         <field name="feature" widget="many2many_tags"/>
                                         <field name="amenity" widget="many2many_tags"/>
                                         <field name="security" widget="many2many_tags"/>
                                         <field name="price"/>
+                                        <field name="price_per"/>
                                         <field name="number_bathroom"/>
                                         <field name="property_city"/>
                                         <field name="property_district" attrs="{'readonly':[('property_city','=', False)]}"/>
@@ -83,6 +85,11 @@
                             </page>
                             <page string="Image Gallery">
                                 <field name="image_gallery" widget="many2many_binary"/>
+                            </page>
+                            <page name="property_google_map" string="Google Map">
+                                <group>
+                                    <field name="property_map"/>
+                                </group>
                             </page>
                             <page name="seo" string="SEO">
                                 <group name="default_opengraph">

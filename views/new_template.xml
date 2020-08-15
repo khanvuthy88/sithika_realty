@@ -150,6 +150,7 @@
                 <ul class="inner_wrraper">
                     <li class="property_id">ID : <t t-esc="property.readable_id"/></li>
                     <li class="property_id">Type : <t t-esc="property.property_type.name" t-if="property.property_type"/></li>
+                    <li class="property_plan_type">Plan type: <span t-if="property.plan_type" t-esc="property.plan_type.display_name"/><span t-else="">None</span></li>
                     <li class="property_id">Bedroom : <t t-esc="property.number_bedroom" t-if="property.number_bedroom"/></li>
                     <li class="property_id">Bathrooms : <t t-esc="property.number_bathroom" t-if="property.number_bathroom"/></li>
                     <li class="property_id">Address : <t t-esc="property.property_address"/></li>
@@ -182,7 +183,8 @@
                 <div t-attf-class="property_author_short_info box_shadow">
                     <div class="price">
                         <span class="price">$<t t-esc="property.price"/>/</span>
-                        <span>Month</span>
+                        <span t-if="property.price_per"><t t-esc="property.price_per.display_name"/></span>
+                        <span t-else="">Month</span>
                     </div>
                     <div class="author_info_avatar">
                         <a t-att-href="article.agent_website_url" class="post-thumbnail" t-att-title="article.name">
@@ -516,6 +518,29 @@
             <xpath expr="//input[@id='login']" position="attributes">
                 <attribute name="type">email</attribute>
             </xpath>
+        </template>
+
+        <template id="project_search_form">
+            <section id="project_search_form">
+                <div class="project_search_wrapper">
+                    <div class="container">
+                        <div class="col-12">
+                            <div class="form">
+                                <form action="/project/search" method="get" id="_o_search_main_form">
+                                    <select class="form-control" name="search_location" id="search_location">
+                                        <t t-foreach="locations" t-as="location">
+                                            <option t-att-selected="location.id == search_location" t-att-value="location.id" t-esc="location.name"/>
+                                        </t>
+                                    </select>
+                                    <input t-attf-value="{{ search_text if search_text else '' }}" class="form-control" name="search_text" type="text" id="search_text" placeholder="Project"/>
+                                    <button t-attf-style="background-color: #3a86cb; color: #fff; border-radius: 0px;" class="btn" type="submit"><i class="fa fa-search fa-2x"/></button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
         </template>
 
     </data>

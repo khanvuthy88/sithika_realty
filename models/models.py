@@ -92,6 +92,19 @@ class ProjectHighlights(models.Model):
     name = fields.Char(translate=html_translate, required=True)
 
 
+class PropertyPricePer(models.Model):
+    _name = 'khmerrealty.price.per'
+
+    name = fields.Char(translate=html_translate, required=True)
+
+
+class PropertyPlanType(models.Model):
+    _name = 'khmerrealty.plan.type'
+
+    name = fields.Char(translate=html_translate, required=True)
+
+
+
 class Property(models.Model):
     _name = 'khmerrealty.property'
     _inherit = ['mail.thread', "website.seo.metadata", 'website.published.multi.mixin']
@@ -132,6 +145,7 @@ class Property(models.Model):
     street_number = fields.Char(translate=html_translate)
     floor_level = fields.Char()
     price = fields.Float(digits=(12, 2), required=True)
+    price_per = fields.Many2one('khmerrealty.price.per', string='Per Month/ Floor ..')
     price_per_m = fields.Float(digits=(12, 2), required=True)
     display_price = fields.Boolean(default=True)
     number_bedroom = fields.Integer(required=True)
@@ -150,6 +164,8 @@ class Property(models.Model):
     property_address = fields.Char(compute="_compute_property_address")
     readable_id = fields.Char(compute="_compute_property_id")
     feature_image_src = fields.Char(compute="_compute_feature_image_src")
+    property_map = fields.Char(string="Google Map")
+    plan_type = fields.Many2one('khmerrealty.plan.type')
 
     def _compute_feature_image_src(self):
         for record in self:
