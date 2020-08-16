@@ -21,6 +21,7 @@ odoo.define('khmerrealty.website_effect', function (require) {
             $('.property_rent_content').hide();
             $(".owl-carousel").owlCarousel({
                 margin:10,
+                navText: ["<i class='fa fa-arrow-circle-left'></i>", "<i class='fa fa-arrow-circle-right'></i>"],
                 responsiveClass:true,
                 responsive:{
                     0:{
@@ -28,7 +29,7 @@ odoo.define('khmerrealty.website_effect', function (require) {
                         nav:true
                     },
                     600:{
-                        items:3,
+                        items:2,
                         nav:false
                     },
                     1000:{

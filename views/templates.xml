@@ -1007,7 +1007,7 @@
                                     <h2 class="font-bold">Feature locations</h2>
                                 </div>
                                 <div class="col-md-12">
-                                    <div class="inner_wrapper">
+                                    <div class="owl-carousel">
                                         <t t-foreach="top_locations" t-as="article">
                                             <t t-call="khmerrealty.article_location_main_template"/>
                                         </t>
