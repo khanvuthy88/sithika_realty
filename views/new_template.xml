@@ -1,5 +1,10 @@
 <odoo>
     <data>
+        <template id="google_meta_tag" name="Google meta tag" inherit_id="portal.frontend_layout">
+            <xpath expr="//head" position="inside">
+                <meta name="google-site-verification" content="Ki-lLwPOUjVYwBrmlUxTMm8Kh9lkE9ZGAsud1CjbA_E" />
+            </xpath>
+        </template>
         <template id="agency_index_template" name="Agency index template">
             <t t-call="website.layout">
                 <div id="wrap" class="js_agency website_agency">
