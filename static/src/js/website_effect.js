@@ -23,6 +23,9 @@ odoo.define('khmerrealty.website_effect', function (require) {
                 margin:10,
                 navText: ["<i class='fa fa-arrow-circle-left'></i>", "<i class='fa fa-arrow-circle-right'></i>"],
                 responsiveClass:true,
+                loop:true,
+                autoplay:true,
+                autoplayTimeout:1500,
                 responsive:{
                     0:{
                         items:1,

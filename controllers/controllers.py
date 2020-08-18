@@ -139,24 +139,24 @@ class Khmerrealty(http.Controller):
             'property_type_obj': property_type_obj,
         })
 
-    @http.route('/property/<model("khmerrealty.type"):property_type>/<model("khmerrealty.property"):record>',
+    @http.route('/property/<model("khmerrealty.type"):property_type>/<model("khmerrealty.property"):record_property>',
                 auth='public', website=True, type='http')
-    def single_property(self, record, **kw):
+    def single_property(self, record_property, **kw):
         property_root_url = QueryURL('/property-listing')
         property_type_url = ''
         locations = request.env['khmerrealty.property.location'].search([('parent_id', '=', False)])
-        if record.property_category == 'buy':
+        if record_property.property_category == 'buy':
             property_type_url = '/property/buy'
-        elif record.property_category == 'rent':
+        elif record_property.property_category == 'rent':
             property_type_url = '/property/rent'
         return request.render('khmerrealty.single_property', {
-            'property': record,
-            'main_object': record,
+            'property': record_property,
+            'main_object': record_property,
             'banners': http.request.env['khmerrealty.advertising'].search([('show_in', '=', 'single_property')],
                                                                           limit=3),
             'related_property': http.request.env['khmerrealty.property'].search([
-                ('id', '!=', record.id),
-                ('property_type', 'in', [record.property_type.id])],
+                ('id', '!=', record_property.id),
+                ('property_type', 'in', [record_property.property_type.id])],
                 limit=4, order='id desc'),
             'property_root_url': property_root_url,
             'property_type_url': property_type_url,

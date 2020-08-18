@@ -8,6 +8,7 @@
                         <li data-holder="Rent" data-type="rent" id="l_rent">Rent</li>
                     </ul>
                     <form action="/search" method="get" id="search_form_vt" data-type="buy">
+                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
                         <select class="form-control" name="search_location" id="search_location">
                             <t t-foreach="location_obj" t-as="location">
                                 <option t-att-value="location.id" t-esc="location.name"/>
@@ -166,6 +167,7 @@
         </template>
         <template id="property_by_location_selection">
             <form id="property_by_location_form" method="get" action="/property-js/location">
+                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
                 <div class="form-group">
                     <label for="Property by location">By Location</label>
                     <select name="search_location_js" class="form-control" id="property_by_location_js">
@@ -207,6 +209,7 @@
                                     <t t-if="search_type == 'rent'">
                                         <div id="property_rent_search_top" class="mt-5 mb-5">
                                             <form id="search_rent" method="get" action="/search">
+                                                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
                                                 <input type="hidden" name="search_type" value="rent"/>
                                                 <input type="text" t-attf-value="{{ search_value }}" class="form-control" name="search_value" placeholder="Area/Rental/Bedroom"/>
                                                 <button class="btn" type="submit"><i class="fa fa-search fa-2x"></i></button>
@@ -216,6 +219,7 @@
                                     <t t-if="search_type == 'buy'">
                                         <div id="property_rent_search_top" class="mt-5 mb-5">
                                             <form id="search_buy" method="get" action="/search">
+                                                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
                                                 <input type="hidden" name="search_type" value="buy"/>
                                                 <input type="text" t-attf-value="{{ search_value }}" class="form-control" name="search_value" placeholder="Area/Rental/Bedroom"/>
                                                 <button class="btn" type="submit"><i class="fa fa-search fa-2x"></i></button>
@@ -450,6 +454,7 @@
                     <ul class="search_content">
                         <li id="buy_content">
                             <form id="search_buy" method="get" action="/search">
+                                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
                                 <input type="hidden" name="search_type" value="buy"/>
                                 <select class="form-control" name="search_location" id="search_location">
                                     <t t-foreach="location_obj" t-as="location">
@@ -462,6 +467,7 @@
                         </li>
                         <li id="rent_content">
                             <form id="search_rent" method="get" action="/search">
+                                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
                                 <input type="hidden" name="search_type" value="rent"/>
                                 <select class="form-control" name="search_location" id="search_location">
                                     <t t-foreach="location_obj" t-as="location">

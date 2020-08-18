@@ -1,5 +1,10 @@
 <odoo>
     <data>
+        <template id="khmerrealty_property_edit_options" inherit_id="website.user_navbar" name="Edit Property options">
+            <xpath expr="//li[@id='edit-page-menu']" position="after">
+                <t t-if="main_object._name == 'record_property'" t-set="action" t-value="'khmerrealty.khmerrealty_property_action'"></t>
+            </xpath>
+        </template>
         <template id="google_meta_tag" name="Google meta tag" inherit_id="portal.frontend_layout">
             <xpath expr="//head" position="inside">
                 <meta name="google-site-verification" content="Ki-lLwPOUjVYwBrmlUxTMm8Kh9lkE9ZGAsud1CjbA_E" />
@@ -233,6 +238,7 @@
                     <li data-holder="Rent" t-attf-class="rent {{ 'active' if search_property_type == 'rent' else '' }}" data-type="rent">Rent</li>
                 </ul>
                 <form action="/search" method="get" id="_o_search_main_form">
+                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
                     <select class="form-control" name="search_location" id="search_location">
                         <t t-foreach="locations" t-as="location">
                             <option t-att-selected="location.id == search_location" t-att-value="location.id" t-esc="location.name"/>
@@ -532,6 +538,7 @@
                         <div class="col-12">
                             <div class="form">
                                 <form action="/project/search" method="get" id="_o_search_main_form">
+                                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
                                     <select class="form-control" name="search_location" id="search_location">
                                         <t t-foreach="locations" t-as="location">
                                             <option t-att-selected="location.id == search_location" t-att-value="location.id" t-esc="location.name"/>
