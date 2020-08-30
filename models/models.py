@@ -179,7 +179,7 @@ class Property(models.Model):
             "@type": "NewsArticle",
             "mainEntityOfPage": {
                 "@type": "WebPage",
-                "@id": "{}".format(url)
+                "@id": base_url + "{}".format(url)
             },
             "headline": "{}".format(self.name),
             'datePublished': '{}'.format(self.create_date),
