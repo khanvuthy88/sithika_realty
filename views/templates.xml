@@ -935,6 +935,7 @@
                                             <t t-set="city" t-value="article.project_city.name" t-if="article.project_city"/>
                                             <t t-set="city_sub_1" t-value="article.project_district.name" t-if="article.project_district"/>
                                             <t t-set="city_sub_2" t-value="article.project_commune.name" t-if="article.project_commune"/>
+                                            <t t-set="article_location_website" t-value="article.project_location_website"/>
                                             <t t-call="khmerrealty.article_horizontal_tempalte"/>
                                         </t>
                                     </div>
@@ -964,6 +965,7 @@
                                                 <t t-set="city" t-value="article.property_city.name" t-if="article.property_city"/>
                                                 <t t-set="city_sub_1" t-value="article.property_district.name" t-if="article.property_district"/>
                                                 <t t-set="city_sub_2" t-value="article.property_commune.name" t-if="article.property_commune"/>
+                                                <t t-set="article_location_website" t-value="article.property_location_website"/>
                                                 <t t-call="khmerrealty.article_horizontal_tempalte"/>
                                             </t>
                                         </div>
@@ -974,6 +976,7 @@
                                                 <t t-set="city" t-value="article.property_city.name" t-if="article.property_city"/>
                                                 <t t-set="city_sub_1" t-value="article.property_district.name" t-if="article.property_district"/>
                                                 <t t-set="city_sub_2" t-value="article.property_commune.name" t-if="article.property_commune"/>
+                                                <t t-set="article_location_website" t-value="article.property_location_website"/>
                                                 <t t-call="khmerrealty.article_horizontal_tempalte"/>
                                             </t>
                                         </div>
@@ -999,6 +1002,7 @@
                                             <t t-set="city" t-value="article.city_vt.name" t-if="article.city_vt"/>
                                             <t t-set="city_sub_1" t-value="article.district_vt.name" t-if="article.district_vt"/>
                                             <t t-set="city_sub_2" t-value="article.commune_vt.name" t-if="article.commune_vt"/>
+                                            <t t-set="article_location_website" t-value="article.partner_location_website"/>
                                             <t t-call="khmerrealty.article_agency_horizontal_template"/>
                                         </t>
                                     </div>

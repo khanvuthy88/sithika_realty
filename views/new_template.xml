@@ -1,5 +1,12 @@
 <odoo>
     <data>
+        <template id="khmerrealty_ld_json" inherit_id="portal.frontend_layout">
+            <xpath expr="//head/meta[last()]" position="after">
+                <t t-if="article_ld_json">
+                    <t t-raw="article_ld_json_script"/>
+                </t>
+            </xpath>
+        </template>
         <template id="khmerrealty_property_edit_options" inherit_id="website.user_navbar" name="Edit Property options">
             <xpath expr="//li[@id='edit-page-menu']" position="after">
                 <t t-if="main_object._name == 'record_property'" t-set="action" t-value="'khmerrealty.khmerrealty_property_action'"></t>
@@ -363,9 +370,10 @@
         </template>
         <template id="article_location_template" name="Article location template">
             <div class="article_location">
-                <span t-if="city" class="city" t-esc="city"/>
-                <span t-if="city_sub_1" class="city_sub1" t-esc="city_sub_1"/>
-                <span t-if="city_sub_2" class="city_sub2" t-esc="city_sub_1"/>
+<!--                <span t-if="city" class="city" t-esc="city"/>-->
+<!--                <span t-if="city_sub_1" class="city_sub1" t-esc="city_sub_1"/>-->
+<!--                <span t-if="city_sub_2" class="city_sub2" t-esc="city_sub_1"/>-->
+                <t t-raw="article_location_website"/>
             </div>
         </template>
         <template id="article_agency_summary" name="Agency summary">

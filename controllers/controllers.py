@@ -6,6 +6,7 @@ from odoo.addons.website.controllers.main import QueryURL
 from odoo.osv import expression
 from odoo.addons.website.controllers.main import Website
 from odoo.addons.website_blog.controllers.main import WebsiteBlog
+import json
 
 
 class Website(Website):
@@ -71,6 +72,10 @@ class Khmerrealty(http.Controller):
     _agency_per_page = 12
     _property_search_page = 4
     _pager_step_ppg = 10
+
+    def to_json_obj(self):
+        return json.dumps(self, default=lambda o: o.__dict__,
+                          sort_keys=True, indent=4)
 
     @http.route('/property/search/rent/<string:search>', auth='public', website=True)
     def property_search(self, search, **kw):
@@ -144,6 +149,11 @@ class Khmerrealty(http.Controller):
     def single_property(self, record_property, **kw):
         property_root_url = QueryURL('/property-listing')
         property_type_url = ''
+        article_ld_json = True
+        print(record_property.ld_json_structure_date())
+
+        json_object = '<script type="application/ld+json">' + json.dumps(record_property.ld_json_structure_date()) + '</script>'
+
         locations = request.env['khmerrealty.property.location'].search([('parent_id', '=', False)])
         if record_property.property_category == 'buy':
             property_type_url = '/property/buy'
@@ -161,6 +171,8 @@ class Khmerrealty(http.Controller):
             'property_root_url': property_root_url,
             'property_type_url': property_type_url,
             'locations': locations,
+            'article_ld_json': article_ld_json,
+            'article_ld_json_script': json_object,
         })
 
     @http.route(['/property/author/<model("res.partner"):author_id>/',

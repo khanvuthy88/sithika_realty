@@ -104,12 +104,10 @@ class PropertyPlanType(models.Model):
     name = fields.Char(translate=html_translate, required=True)
 
 
-
 class Property(models.Model):
     _name = 'khmerrealty.property'
     _inherit = ['mail.thread', "website.seo.metadata", 'website.published.multi.mixin']
     _mail_post_access = 'read'
-
 
     @api.model
     def _get_default_property_author(self):
@@ -166,6 +164,50 @@ class Property(models.Model):
     feature_image_src = fields.Char(compute="_compute_feature_image_src")
     property_map = fields.Char(string="Google Map")
     plan_type = fields.Many2one('khmerrealty.plan.type')
+    property_location_website = fields.Char(compute='_compute_property_website_location')
+
+    def ld_json_structure_date(self):
+        url = self.website_url
+        company_obj = self.env['res.company'].search([], limit=1)
+        base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
+        image_list = []
+        for record in self.image_gallery:
+            image = base_url + "{}".format(record.image_src)
+            image_list.append(image)
+        data = {
+            "@context": "https://schema.org",
+            "@type": "NewsArticle",
+            "mainEntityOfPage": {
+                "@type": "WebPage",
+                "@id": "{}".format(url)
+            },
+            "headline": "{}".format(self.name),
+            'datePublished': '{}'.format(self.create_date),
+            'dateModified': '{}'.format(self.write_date),
+            "author": {
+                "@type": "Person",
+                "name": "{}".format(self.property_author.name if self.property_author else 'Vuthy')
+            },
+            "image": image_list,
+            "publisher": {
+                "@type": "Organization",
+                "name": "{}".format(company_obj.name),
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": self.env['website'].image_url(company_obj, 'logo')
+                },
+            },
+        }
+        return data
+
+    def _compute_property_website_location(self):
+        for record in self:
+            commune = record.property_commune.name if record.property_commune else 'N/A'
+            district = record.property_district.name if record.property_district else 'N/A'
+            province = record.property_city.name if record.property_city else 'N/A'
+            record.property_location_website = "<i class='fa fa-map-marker'></i>&nbsp;{}&nbsp;<i class='fa " \
+                                               "fa-chevron-right'></i>&nbsp;{}&nbsp;<i class='fa " \
+                                               "fa-chevron-right'></i>&nbsp;{}".format(commune, district, province)
 
     def _compute_feature_image_src(self):
         for record in self:
@@ -179,8 +221,10 @@ class Property(models.Model):
     @api.depends('property_city.name', 'property_district.name', 'property_commune.name')
     def _compute_property_address(self):
         for record in self:
-            record.property_address = '{} > {} > {}'.format(record.property_city.name, record.property_district.name,
-                                                            record.property_commune.name)
+            city = record.property_city.name if record.property_city else 'N/A'
+            district = record.property_district.name if record.property_district else 'N/A'
+            commune = record.property_commune.name if record.property_commune else 'N/A'
+            record.property_address = '{} > {} > {}'.format(commune, district, city)
 
     def _compute_short_description(self):
         for record in self:
@@ -240,14 +284,16 @@ class Property(models.Model):
 
     def _default_website_meta(self):
         res = super(Property, self)._default_website_meta()
-        res['default_opengraph']['og:description'] = res['default_twitter']['twitter:description'] = self.short_description
+        res['default_opengraph']['og:description'] = res['default_twitter'][
+            'twitter:description'] = self.short_description
         res['default_opengraph']['og:type'] = 'article'
         res['default_opengraph']['article:published_time'] = self.create_date
         res['default_opengraph']['fb:app_id'] = '290178345404898'
         res['default_opengraph']['article:modified_time'] = self.write_date
         res['default_opengraph']['article:tag'] = self.feature.mapped('name')
         res['default_opengraph']['og:title'] = res['default_twitter']['twitter:title'] = self.name
-        res['default_opengraph']['og:image'] = res['default_twitter']['twitter:image'] = self.env['website'].image_url(self, 'feature_image')
+        res['default_opengraph']['og:image'] = res['default_twitter']['twitter:image'] = self.env['website'].image_url(
+            self, 'feature_image')
         res['default_meta_description'] = self.short_description
         return res
 
@@ -303,7 +349,15 @@ class Project(models.Model):
     short_description = fields.Text(compute="_compute_short_description")
     readable_id = fields.Char(compute="_compute_readable_id")
     feature_image_src = fields.Char(compute="_compute_feature_image_src")
+    project_location_website = fields.Char(compute='_compute_property_website_location')
 
+    def _compute_property_website_location(self):
+        for record in self:
+            commune = record.project_commune.name if record.project_commune else 'N/A'
+            district = record.project_district.name if record.project_district else 'N/A'
+            province = record.project_city.name if record.project_city else 'N/A'
+            record.project_location_website = "<i class='fa fa-map-marker'></i>&nbsp;{}&nbsp;<i class='fa fa-chevron-right'></i>&nbsp;{}&nbsp;<i class='fa " \
+                                              "fa-chevron-right'></i>&nbsp;{}".format(commune, district, province)
 
     def _compute_feature_image_src(self):
         for record in self:
@@ -330,14 +384,16 @@ class Project(models.Model):
 
     def _default_website_meta(self):
         res = super(Project, self)._default_website_meta()
-        res['default_opengraph']['og:description'] = res['default_twitter']['twitter:description'] = self.short_description
+        res['default_opengraph']['og:description'] = res['default_twitter'][
+            'twitter:description'] = self.short_description
         res['default_opengraph']['og:type'] = 'article'
         res['default_opengraph']['article:published_time'] = self.create_date
         res['default_opengraph']['article:modified_time'] = self.write_date
         res['default_opengraph']['article:tag'] = self.feature.mapped('name')
         res['default_opengraph']['fb:app_id'] = '290178345404898'
         res['default_opengraph']['og:title'] = res['default_twitter']['twitter:title'] = self.name
-        res['default_opengraph']['og:image'] = res['default_twitter']['twitter:image'] = self.env['website'].image_url(self, 'feature_image')
+        res['default_opengraph']['og:image'] = res['default_twitter']['twitter:image'] = self.env['website'].image_url(
+            self, 'feature_image')
         res['default_meta_description'] = self.short_description
         return res
 
@@ -390,7 +446,8 @@ class BlogPost(models.Model):
         res['default_opengraph']['article:modified_time'] = self.write_date
         res['default_opengraph']['fb:app_id'] = '290178345404898'
         res['default_opengraph']['article:tag'] = self.tag_ids.mapped('name')
-        res['default_opengraph']['og:image'] = res['default_twitter']['twitter:image'] = self.env['website'].image_url(self, 'feature_image')
+        res['default_opengraph']['og:image'] = res['default_twitter']['twitter:image'] = self.env['website'].image_url(
+            self, 'feature_image')
         res['default_opengraph']['og:title'] = res['default_twitter']['twitter:title'] = self.name
         res['default_meta_description'] = self.subtitle
         return res
@@ -408,23 +465,34 @@ class ResPartner(models.Model):
     commune_vt = fields.Many2one('khmerrealty.property.location', string='Commune')
     agent_website_url = fields.Char(compute="_compute_agent_website_url")
     phone_number_website = fields.Char(compute='_compute_phone_number_with')
-    website_short_description = fields.Text('Website Partner Short Description', translate=True, compute='_compute_short_description')
+    website_short_description = fields.Text('Website Partner Short Description', translate=True,
+                                            compute='_compute_short_description')
+    partner_location_website = fields.Char(compute='_compute_partner_website_location')
+
+    def _compute_partner_website_location(self):
+        for record in self:
+            commune = record.commune_vt.name if record.commune_vt else 'N/A'
+            district = record.district_vt.name if record.district_vt else 'N/A'
+            province = record.city_vt.name if record.city_vt else 'N/A'
+            record.partner_location_website = "<i class='fa fa-map-marker'></i>&nbsp;{}&nbsp;<i class='fa fa-chevron-right'></i>&nbsp;{}&nbsp;<i class='fa " \
+                                              "fa-chevron-right'></i>&nbsp;{}".format(commune, district, province)
 
     def _compute_short_description(self):
         for record in self:
             content = html2plaintext(record.description_website).replace('\n', ' ')
             record.website_short_description = content[:200] + '...'
 
-
     def _default_website_meta(self):
         res = super(ResPartner, self)._default_website_meta()
-        res['default_opengraph']['og:description'] = res['default_twitter']['twitter:description'] = self.website_short_description
+        res['default_opengraph']['og:description'] = res['default_twitter'][
+            'twitter:description'] = self.website_short_description
         res['default_opengraph']['og:type'] = 'article'
         res['default_opengraph']['article:published_time'] = self.create_date
         res['default_opengraph']['article:modified_time'] = self.write_date
         res['default_opengraph']['fb:app_id'] = '290178345404898'
         res['default_opengraph']['og:title'] = res['default_twitter']['twitter:title'] = self.name
-        res['default_opengraph']['og:image'] = res['default_twitter']['twitter:image'] = self.env['website'].image_url(self, 'image_1920')
+        res['default_opengraph']['og:image'] = res['default_twitter']['twitter:image'] = self.env['website'].image_url(
+            self, 'image_1920')
         res['default_meta_description'] = self.website_short_description
         return res
 
