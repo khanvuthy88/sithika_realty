@@ -199,7 +199,7 @@
             <div class="inner_wrapper">
                 <div t-attf-class="property_author_short_info box_shadow">
                     <div class="price">
-                        <span class="price">$<t t-esc="property.price"/>/</span>
+                        <span class="price">$<t t-esc="property.price" t-options='{"widget": "float", "precision": 2}'/>/</span>
                         <span t-if="property.price_per"><t t-esc="property.price_per.display_name"/></span>
                         <span t-else="">Month</span>
                     </div>
