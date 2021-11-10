@@ -289,6 +289,7 @@ class Property(models.Model):
         res['default_opengraph']['og:type'] = 'article'
         res['default_opengraph']['article:published_time'] = self.create_date
         res['default_opengraph']['fb:app_id'] = '290178345404898'
+        res['default_opengraph']['facebook-domain-verification']='2o4bddy8h37fpj9j1i2yyt2yaptimh'
         res['default_opengraph']['article:modified_time'] = self.write_date
         res['default_opengraph']['article:tag'] = self.feature.mapped('name')
         res['default_opengraph']['og:title'] = res['default_twitter']['twitter:title'] = self.name
@@ -391,6 +392,7 @@ class Project(models.Model):
         res['default_opengraph']['article:modified_time'] = self.write_date
         res['default_opengraph']['article:tag'] = self.feature.mapped('name')
         res['default_opengraph']['fb:app_id'] = '290178345404898'
+        res['default_opengraph']['facebook-domain-verification']='2o4bddy8h37fpj9j1i2yyt2yaptimh'
         res['default_opengraph']['og:title'] = res['default_twitter']['twitter:title'] = self.name
         res['default_opengraph']['og:image'] = res['default_twitter']['twitter:image'] = self.env['website'].image_url(
             self, 'feature_image')
@@ -445,6 +447,7 @@ class BlogPost(models.Model):
         res['default_opengraph']['article:published_time'] = self.post_date
         res['default_opengraph']['article:modified_time'] = self.write_date
         res['default_opengraph']['fb:app_id'] = '290178345404898'
+        res['default_opengraph']['facebook-domain-verification']='2o4bddy8h37fpj9j1i2yyt2yaptimh'
         res['default_opengraph']['article:tag'] = self.tag_ids.mapped('name')
         res['default_opengraph']['og:image'] = res['default_twitter']['twitter:image'] = self.env['website'].image_url(
             self, 'feature_image')
@@ -490,6 +493,7 @@ class ResPartner(models.Model):
         res['default_opengraph']['article:published_time'] = self.create_date
         res['default_opengraph']['article:modified_time'] = self.write_date
         res['default_opengraph']['fb:app_id'] = '290178345404898'
+        res['default_opengraph']['facebook-domain-verification']='2o4bddy8h37fpj9j1i2yyt2yaptimh'
         res['default_opengraph']['og:title'] = res['default_twitter']['twitter:title'] = self.name
         res['default_opengraph']['og:image'] = res['default_twitter']['twitter:image'] = self.env['website'].image_url(
             self, 'image_1920')
